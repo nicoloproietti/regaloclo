@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
+import DialogueBox from '../components/DialogueBox.jsx'
 import { CONFIG } from '../config.js'
 import './newspaper.css'
 
@@ -31,10 +32,12 @@ const BAD = [
 const LANES = [12, 30, 48, 66]
 
 export default function Step2Newspaper({ onComplete }) {
+  const [started, setStarted] = useState(false)
   const [cards, setCards] = useState([])
   const [collected, setCollected] = useState(0)
   const [flash, setFlash] = useState(null) // {kind:'ok'|'no'}
   const [published, setPublished] = useState(false)
+  const [showFinal, setShowFinal] = useState(false)
 
   const idRef = useRef(0)
   const rafRef = useRef(null)
@@ -58,13 +61,13 @@ export default function Step2Newspaper({ onComplete }) {
   }, [])
 
   useEffect(() => {
-    if (published || done) return
+    if (!started || published || done) return
     spawnRef.current = setInterval(spawn, 950)
     return () => clearInterval(spawnRef.current)
-  }, [published, done, spawn])
+  }, [started, published, done, spawn])
 
   useEffect(() => {
-    if (published || done) return
+    if (!started || published || done) return
     let last = performance.now()
     function tick(now) {
       const dt = (now - last) / 1000
@@ -78,7 +81,7 @@ export default function Step2Newspaper({ onComplete }) {
     }
     rafRef.current = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(rafRef.current)
-  }, [published, done])
+  }, [started, published, done])
 
   useEffect(() => {
     if (done && !published) {
@@ -104,6 +107,44 @@ export default function Step2Newspaper({ onComplete }) {
     setTimeout(() => setFlash(null), 500)
   }
 
+  // dialogo introduttivo
+  if (!started) {
+    return (
+      <div className="news-screen">
+        <DialogueBox
+          lines={[
+            { speaker: 'nico', text: 'Visto che sei una brava giornalista, ti metto alla prova...' },
+            { speaker: 'nico', text: 'Dovrai scoprire lo scoop di stasera!' },
+          ]}
+          action={
+            <button className="pixel-btn" onClick={() => setStarted(true)}>
+              VIA!
+            </button>
+          }
+        />
+      </div>
+    )
+  }
+
+  // dialogo finale, prima dello sblocco della lettera
+  if (showFinal) {
+    return (
+      <div className="news-screen">
+        <DialogueBox
+          lines={[
+            { speaker: 'nico', text: 'Il lupo perde il pelo ma non il vizio...' },
+            { speaker: 'nico', text: 'il navigatore lo fai te! 🚗' },
+          ]}
+          action={
+            <button className="pixel-btn" onClick={onComplete}>
+              OK
+            </button>
+          }
+        />
+      </div>
+    )
+  }
+
   if (published) {
     return (
       <div className="news-screen">
@@ -117,7 +158,7 @@ export default function Step2Newspaper({ onComplete }) {
           <div className="news-standfirst">
             Prenotazione confermata per due · al calar del sole
           </div>
-          <button className="pixel-btn" style={{ marginTop: 18 }} onClick={onComplete}>
+          <button className="pixel-btn" style={{ marginTop: 18 }} onClick={() => setShowFinal(true)}>
             CONTINUA
           </button>
         </div>
