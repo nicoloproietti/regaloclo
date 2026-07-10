@@ -1,0 +1,61 @@
+.admin-screen {
+  min-height: 100dvh;
+  width: 100%;
+  background: var(--gb-bg);
+  color: var(--gb-pale);
+  font-family: 'Press Start 2P', monospace;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px 16px;
+  gap: 16px;
+}
+
+.admin-login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 30vh;
+  gap: 6px;
+}
+
+.admin-title {
+  font-size: 13px;
+  margin-bottom: 12px;
+}
+
+.admin-error {
+  color: #e05a5a;
+  font-size: 9px;
+  margin-top: 8px;
+}
+
+.admin-status {
+  font-size: 9px;
+  line-height: 1.8;
+  background: var(--gb-dark);
+  border: 3px solid var(--gb-pale);
+  padding: 12px;
+  width: 100%;
+  max-width: 420px;
+  word-break: break-all;
+}
+
+.admin-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  max-width: 420px;
+}
+
+.admin-btn {
+  font-size: 9px;
+  text-align: left;
+}
+
+.admin-reset {
+  margin-top: 20px;
+  font-size: 8px;
+  opacity: 0.6;
+}
