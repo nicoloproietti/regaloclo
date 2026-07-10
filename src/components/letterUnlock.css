@@ -39,6 +39,9 @@
   width: 200px;
   height: 200px;
   margin: 6px auto 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .lu-sparkle {
@@ -48,10 +51,6 @@
 }
 
 .lu-medallion {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   width: 130px;
   height: 130px;
   border-radius: 50%;
