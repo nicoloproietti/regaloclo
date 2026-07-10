@@ -20,7 +20,7 @@ function Waiting({ text }) {
 }
 
 export default function GameView() {
-  const { state, loading, setStep, setLetter, setProgress } = useGameState()
+  const { state, loading, setStep, updateState } = useGameState()
   const [activeUnlock, setActiveUnlock] = useState(null)
   const prevLettersRef = useRef(null)
 
@@ -61,8 +61,10 @@ export default function GameView() {
           <Waiting text={`In attesa...\n${CONFIG.meetup.date}, ore ${CONFIG.meetup.time}`} />
         ) : (
           <Step1Runner
-            onWin={() => setLetter('I', 'full')}
-            onComplete={() => setProgress({ step1_done: true })}
+            onWin={() => updateState({ letters_unlocked: { ...letters, I: 'full' } })}
+            onComplete={() =>
+              updateState({ step1_progress: { ...step1_progress, step1_done: true } })
+            }
           />
         )
         break
@@ -72,10 +74,12 @@ export default function GameView() {
           <Waiting text="In attesa del prossimo indizio..." />
         ) : (
           <Step1_5Crossword
-            onComplete={async () => {
-              await setLetter('A', 'teaser')
-              await setProgress({ step1_5_done: true })
-            }}
+            onComplete={() =>
+              updateState({
+                letters_unlocked: { ...letters, A: 'teaser' },
+                step1_progress: { ...step1_progress, step1_5_done: true },
+              })
+            }
           />
         )
         break
@@ -85,10 +89,12 @@ export default function GameView() {
           <Waiting text="In attesa della prossima tappa..." />
         ) : (
           <Step2TreasureMap
-            onComplete={async () => {
-              await setLetter('A', 'full')
-              await setProgress({ step2_done: true })
-            }}
+            onComplete={() =>
+              updateState({
+                letters_unlocked: { ...letters, A: 'full' },
+                step1_progress: { ...step1_progress, step2_done: true },
+              })
+            }
           />
         )
         break
@@ -98,10 +104,12 @@ export default function GameView() {
           <Waiting text="In attesa..." />
         ) : (
           <Step3Riddle
-            onSolved={async () => {
-              await setLetter('M', 'full')
-              await setProgress({ step3_done: true })
-            }}
+            onSolved={() =>
+              updateState({
+                letters_unlocked: { ...letters, M: 'full' },
+                step1_progress: { ...step1_progress, step3_done: true },
+              })
+            }
           />
         )
         break
