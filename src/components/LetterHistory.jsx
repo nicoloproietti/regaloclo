@@ -1,11 +1,12 @@
 import { useState } from 'react'
+import { Envelope, Leaf } from './Icon.jsx'
 import './letterHistory.css'
 
 // Posizioni sparse fisse (non in ordine "TI AMO") dentro il pannello.
 const LAYOUT = {
-  I: { top: '18%', left: '62%', caption: 'raccolta a mezzanotte' },
-  A: { top: '55%', left: '20%', caption: 'raccolta al tramonto' },
-  M: { top: '30%', left: '38%', caption: 'raccolta a cena' },
+  I: { top: '20%', left: '64%', caption: 'raccolta a mezzanotte' },
+  A: { top: '58%', left: '24%', caption: 'raccolta durante il viaggio' },
+  M: { top: '32%', left: '40%', caption: 'raccolta a cena' },
 }
 
 export default function LetterHistory({ letters }) {
@@ -15,13 +16,16 @@ export default function LetterHistory({ letters }) {
   return (
     <>
       <button className="letter-history-toggle" onClick={() => setOpen(true)} aria-label="Storico lettere">
-        ✉
+        <Envelope size={26} />
       </button>
 
       {open && (
         <div className="letter-history-overlay" onClick={() => setOpen(false)}>
           <div className="letter-history-panel" onClick={(e) => e.stopPropagation()}>
-            <div className="letter-history-title">STORICO</div>
+            <div className="letter-history-title">
+              <Leaf size={20} />
+              <span>Il tuo taccuino</span>
+            </div>
             <div className="letter-history-grid">
               {entries.map((key) => {
                 const status = letters?.[key] || 'hidden'
@@ -33,7 +37,7 @@ export default function LetterHistory({ letters }) {
                     style={{ top: pos.top, left: pos.left }}
                   >
                     <div className="letter-glyph">
-                      {status === 'full' ? key : status === 'teaser' ? '▓' : '?'}
+                      {status === 'full' ? key : ''}
                     </div>
                     {status === 'full' && (
                       <div className="letter-caption">{pos.caption}</div>

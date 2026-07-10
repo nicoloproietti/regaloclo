@@ -1,13 +1,24 @@
 import { motion } from 'framer-motion'
+import { Heart, Question } from './Icon.jsx'
 import './sprite.css'
 
-// Placeholder cartoon: personaggio con testa tonda, occhioni e outline spesso,
-// in stile "buddy" da mobile game (Jetpack Joyride-ish). Verrà rifinito in seguito.
+function Reaction({ kind }) {
+  if (kind === '❤' || kind === 'heart') return <Heart size={26} />
+  if (kind === '?' || kind === 'question') return <Question size={26} />
+  return <span>{kind}</span>
+}
+
+// Personaggio cartoon in stile Animal Crossing: testa tonda, occhioni,
+// guance rosate e outline morbido.
 export default function Sprite({ who, reaction, size = 88 }) {
   const isNico = who === 'nico'
   return (
     <div className="sprite-wrap" style={{ width: size, height: size * 1.15 }}>
-      {reaction && <div className="sprite-reaction">{reaction}</div>}
+      {reaction && (
+        <div className="sprite-reaction">
+          <Reaction kind={reaction} />
+        </div>
+      )}
       <motion.div
         className={`sprite ${isNico ? 'sprite-nico' : 'sprite-claudia'}`}
         animate={{ y: [0, -6, 0], rotate: [0, isNico ? -2 : 2, 0] }}

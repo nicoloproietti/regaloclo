@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react'
-import DialogueBox from '../components/DialogueBox.jsx'
+import { Paw, XMark, MapMark, Chest } from '../components/Icon.jsx'
 import { CONFIG } from '../config.js'
 import './treasureMap.css'
 
@@ -85,7 +85,7 @@ export default function Step2TreasureMap({ onComplete }) {
     return (
       <div className="screen treasure-bg">
         <div className="chest-reveal">
-          <div className="chest-emoji">🗝️📜</div>
+          <div className="chest-emoji"><Chest size={96} /></div>
           <div className="chest-scroll">{CONFIG.restaurantName}</div>
         </div>
         <button
@@ -140,7 +140,7 @@ export default function Step2TreasureMap({ onComplete }) {
               className={`treasure-checkpoint ${i <= reachedCheckpoint ? 'reached' : ''}`}
               style={{ left: `${PATH[cp.atIndex].x}%`, top: `${PATH[cp.atIndex].y}%` }}
             >
-              {cp.clue === 'TREASURE' ? '🗺️' : '✕'}
+              {cp.clue === 'TREASURE' ? <MapMark size={30} /> : <XMark size={26} />}
             </div>
           ) : null
         )}
@@ -149,7 +149,7 @@ export default function Step2TreasureMap({ onComplete }) {
           className="treasure-icon"
           style={{ left: `${iconPos.x}%`, top: `${iconPos.y}%` }}
         >
-          🐾
+          <Paw size={30} />
         </div>
       </div>
       <div className="treasure-hint">TRASCINA L'ORMA LUNGO IL SENTIERO</div>

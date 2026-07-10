@@ -1,0 +1,99 @@
+.lu-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: radial-gradient(circle at 50% 45%, rgba(255, 246, 214, 0.35), rgba(70, 52, 32, 0.72));
+  backdrop-filter: blur(3px);
+}
+
+.lu-card {
+  position: relative;
+  width: 100%;
+  max-width: 340px;
+  background: var(--cream);
+  border-radius: 32px;
+  border: 6px solid var(--wood);
+  box-shadow: 0 16px 0 var(--wood-dark), 0 26px 40px var(--shadow);
+  padding: 22px 22px 26px;
+  text-align: center;
+}
+
+.lu-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-family: 'Baloo 2', sans-serif;
+  font-size: 19px;
+  font-weight: 800;
+  color: var(--purple-dark);
+  margin-bottom: 8px;
+}
+
+.lu-medallion-area {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  margin: 6px auto 10px;
+}
+
+.lu-sparkle {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  filter: drop-shadow(0 2px 2px rgba(90, 66, 40, 0.25));
+}
+
+.lu-medallion {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 7px solid #fff;
+}
+
+.lu-full {
+  background: radial-gradient(circle at 38% 32%, #ffe89a, var(--sun) 65%, #f2ac2e);
+  box-shadow: 0 10px 0 #d98b1c, 0 16px 26px var(--shadow);
+}
+
+.lu-teaser {
+  background: radial-gradient(circle at 38% 32%, #7fae63, var(--purple-dark) 70%, #3d7a24);
+  box-shadow: 0 10px 0 #2f5c1a, 0 16px 26px var(--shadow);
+}
+
+.lu-glyph {
+  font-family: 'Baloo 2', sans-serif;
+  font-size: 66px;
+  font-weight: 800;
+  line-height: 1;
+  color: #fff;
+  text-shadow: 0 3px 0 rgba(90, 66, 40, 0.35);
+}
+
+.lu-full .lu-glyph {
+  color: #7a4a05;
+  text-shadow: 0 3px 0 rgba(255, 255, 255, 0.5);
+}
+
+.lu-caption {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink);
+  opacity: 0.8;
+  margin-bottom: 18px;
+}
+
+.lu-btn {
+  font-size: 15px;
+  padding: 12px 30px;
+}
