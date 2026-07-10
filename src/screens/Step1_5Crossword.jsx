@@ -112,7 +112,7 @@ export default function Step1_5Crossword({ onComplete }) {
           )
         })}
       </div>
-      <div className="slot-sub">il nome del posto dove ti aspetto</div>
+      <div className="slot-sub">il nome del posto dove andremo</div>
     </div>
   )
 }
