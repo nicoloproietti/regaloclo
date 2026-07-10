@@ -24,13 +24,29 @@
 .verse-card {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   background: var(--cream);
   border: 4px solid var(--wood);
   border-radius: 18px;
-  padding: 12px 12px 12px 16px;
+  padding: 16px 16px;
   box-shadow: 0 6px 0 var(--wood-dark);
-  transition: transform 0.15s ease;
+  touch-action: none;
+  cursor: grab;
+  transition: box-shadow 0.12s ease, transform 0.12s ease, background 0.12s ease;
+}
+
+.verse-card.dragging {
+  cursor: grabbing;
+  transform: scale(1.03);
+  background: #fffdf6;
+  box-shadow: 0 12px 0 var(--wood-dark), 0 18px 26px var(--shadow);
+  z-index: 5;
+}
+
+.verse-grip {
+  color: var(--wood-dark);
+  font-size: 18px;
+  line-height: 1;
 }
 
 .verse-text {
@@ -40,34 +56,7 @@
   font-size: 15px;
   line-height: 1.35;
   color: var(--ink);
-}
-
-.verse-moves {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.verse-move {
-  width: 34px;
-  height: 26px;
-  border: none;
-  border-radius: 8px;
-  background: linear-gradient(180deg, #a6e06a, var(--grass));
-  color: #2f5416;
-  font-size: 12px;
-  font-weight: 800;
-  box-shadow: 0 3px 0 var(--grass-dark);
-}
-
-.verse-move:active {
-  transform: translateY(2px);
-  box-shadow: 0 1px 0 var(--grass-dark);
-}
-
-.verse-move:disabled {
-  opacity: 0.35;
-  box-shadow: 0 3px 0 var(--grass-dark);
+  pointer-events: none;
 }
 
 .verse-list.ok .verse-card {
@@ -75,34 +64,68 @@
   background: #eafbe0;
 }
 
-/* soluzione */
+/* --- soluzione: papiro --- */
 .riddle-solved-bg {
   background: linear-gradient(180deg, #2f2560, #0f0c22);
+  gap: 22px;
 }
 
-.verse-poem {
-  max-width: 420px;
-  background: rgba(255, 250, 240, 0.1);
-  border: 2px solid rgba(255, 255, 255, 0.25);
-  border-radius: 20px;
-  padding: 18px 20px;
-  margin-bottom: 18px;
+.papyrus {
+  position: relative;
+  width: 100%;
+  max-width: 360px;
+  background:
+    radial-gradient(circle at 50% 0, rgba(255, 255, 255, 0.35), transparent 60%),
+    linear-gradient(180deg, #f4e4bd, #e6cf98);
+  color: #5b4224;
+  padding: 34px 26px;
+  border-radius: 6px;
+  box-shadow: inset 0 0 45px rgba(150, 110, 50, 0.35),
+    0 14px 26px rgba(0, 0, 0, 0.45);
 }
 
-.verse-line-final {
-  font-family: Georgia, serif;
+.papyrus::before,
+.papyrus::after {
+  content: '';
+  position: absolute;
+  left: -8px;
+  right: -8px;
+  height: 24px;
+  background: linear-gradient(180deg, #cdae72, #a8854e);
+  border-radius: 50% / 100%;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.35);
+}
+.papyrus::before { top: -12px; }
+.papyrus::after { bottom: -12px; }
+
+.papyrus-orn {
+  text-align: center;
+  color: #b08a4e;
+  letter-spacing: 6px;
+  font-size: 12px;
+  margin-bottom: 14px;
+}
+
+.papyrus-line {
+  font-family: Georgia, 'Times New Roman', serif;
   font-style: italic;
   font-size: 16px;
-  line-height: 1.7;
-  color: #fdf4dd;
+  line-height: 1.8;
   text-align: center;
+  color: #4f3a1f;
 }
 
-.verse-reveal {
+.papyrus-divider {
+  height: 2px;
+  background: repeating-linear-gradient(90deg, #b08a4e 0 8px, transparent 8px 14px);
+  margin: 16px 10px;
+}
+
+.papyrus-reveal {
   font-family: 'Baloo 2', sans-serif;
   font-weight: 800;
   font-size: 20px;
-  color: #ffd45e;
+  color: #7a4a05;
   text-align: center;
   animation: reveal-pop 0.5s ease;
 }

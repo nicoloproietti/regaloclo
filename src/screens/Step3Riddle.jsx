@@ -1,9 +1,8 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import DialogueBox from '../components/DialogueBox.jsx'
 import './riddle.css'
 
-// Step 3 – Filastrocca coi versi da riordinare.
-// I versi escono mescolati; rimettendoli in ordine si svela la meta finale.
+// Step 3 – Filastrocca coi versi da riordinare (drag & drop).
 const VERSES = [
   'Quando la cena sarà terminata,',
   'l’ultima sorpresa ci verrà regalata.',
@@ -11,32 +10,68 @@ const VERSES = [
   'dove la notte si specchia nel mare.',
 ]
 
-function shuffledOrder() {
+// mescola in modo che NESSUN verso resti al posto giusto (derangement)
+function scrambledOrder() {
   const idx = VERSES.map((_, i) => i)
   for (let i = idx.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1))
     ;[idx[i], idx[j]] = [idx[j], idx[i]]
   }
-  if (idx.every((v, i) => v === i)) return shuffledOrder()
+  if (idx.some((v, i) => v === i)) return scrambledOrder()
   return idx
+}
+
+function arrayMove(arr, from, to) {
+  const a = [...arr]
+  const [it] = a.splice(from, 1)
+  a.splice(to, 0, it)
+  return a
 }
 
 export default function Step3Riddle({ onSolved }) {
   const [phase, setPhase] = useState('intro') // intro | puzzle | solved
-  const [order, setOrder] = useState(shuffledOrder)
+  const [order, setOrder] = useState(scrambledOrder)
+  const [dragIdx, setDragIdx] = useState(null) // verse idx in trascinamento
+
+  const listRef = useRef(null)
+  const dragPosRef = useRef(null)
+  const strideRef = useRef(1)
+  const topRef = useRef(0)
 
   const correct = order.every((v, i) => v === i)
 
-  function move(pos, dir) {
-    const target = pos + dir
-    if (target < 0 || target >= order.length) return
+  function startDrag(pos, e) {
+    dragPosRef.current = pos
+    setDragIdx(order[pos])
+    const kids = listRef.current?.children
+    if (kids && kids.length) {
+      const r0 = kids[0].getBoundingClientRect()
+      topRef.current = r0.top
+      strideRef.current =
+        kids.length > 1 ? kids[1].getBoundingClientRect().top - r0.top : r0.height
+    }
+    try {
+      e.currentTarget.setPointerCapture(e.pointerId)
+    } catch (_) {}
+  }
+
+  function onDrag(e) {
+    if (dragPosRef.current === null) return
+    const rel = e.clientY - topRef.current
+    let target = Math.round(rel / strideRef.current)
+    target = Math.max(0, Math.min(order.length - 1, target))
+    if (target !== dragPosRef.current) {
+      setOrder((prev) => arrayMove(prev, dragPosRef.current, target))
+      dragPosRef.current = target
+    }
+  }
+
+  function endDrag() {
+    dragPosRef.current = null
+    setDragIdx(null)
     setOrder((prev) => {
-      const next = [...prev]
-      ;[next[pos], next[target]] = [next[target], next[pos]]
-      if (next.every((v, i) => v === i)) {
-        setTimeout(() => setPhase('solved'), 450)
-      }
-      return next
+      if (prev.every((v, i) => v === i)) setTimeout(() => setPhase('solved'), 450)
+      return prev
     })
   }
 
@@ -62,13 +97,15 @@ export default function Step3Riddle({ onSolved }) {
   if (phase === 'solved') {
     return (
       <div className="screen riddle-solved-bg">
-        <div className="verse-poem">
+        <div className="papyrus">
+          <div className="papyrus-orn">✦ ✦ ✦</div>
           {VERSES.map((v, i) => (
-            <div key={i} className="verse-line-final">{v}</div>
+            <div key={i} className="papyrus-line">{v}</div>
           ))}
+          <div className="papyrus-divider" />
+          <div className="papyrus-reveal">L’ultima tappa: IL MARE 🌊</div>
         </div>
-        <div className="verse-reveal">L’ultima tappa: IL MARE 🌊</div>
-        <button className="pixel-btn" style={{ marginTop: 18 }} onClick={onSolved}>
+        <button className="pixel-btn" onClick={onSolved}>
           ANDIAMO
         </button>
       </div>
@@ -77,29 +114,19 @@ export default function Step3Riddle({ onSolved }) {
 
   return (
     <div className="screen">
-      <div className="verse-hint">Rimetti i versi nell’ordine giusto</div>
-      <div className={`verse-list ${correct ? 'ok' : ''}`}>
+      <div className="verse-hint">Trascina i versi nell’ordine giusto</div>
+      <div className={`verse-list ${correct ? 'ok' : ''}`} ref={listRef}>
         {order.map((idx, pos) => (
-          <div key={idx} className="verse-card">
+          <div
+            key={idx}
+            className={`verse-card ${dragIdx === idx ? 'dragging' : ''}`}
+            onPointerDown={(e) => startDrag(pos, e)}
+            onPointerMove={onDrag}
+            onPointerUp={endDrag}
+            onPointerCancel={endDrag}
+          >
+            <span className="verse-grip">⠿</span>
             <span className="verse-text">{VERSES[idx]}</span>
-            <div className="verse-moves">
-              <button
-                className="verse-move"
-                onClick={() => move(pos, -1)}
-                disabled={pos === 0}
-                aria-label="su"
-              >
-                ▲
-              </button>
-              <button
-                className="verse-move"
-                onClick={() => move(pos, 1)}
-                disabled={pos === order.length - 1}
-                aria-label="giù"
-              >
-                ▼
-              </button>
-            </div>
           </div>
         ))}
       </div>
