@@ -61,10 +61,8 @@ export default function GameView() {
           <Waiting text={`In attesa...\n${CONFIG.meetup.date}, ore ${CONFIG.meetup.time}`} />
         ) : (
           <Step1Runner
-            onComplete={async () => {
-              await setLetter('I', 'full')
-              await setProgress({ step1_done: true })
-            }}
+            onWin={() => setLetter('I', 'full')}
+            onComplete={() => setProgress({ step1_done: true })}
           />
         )
         break

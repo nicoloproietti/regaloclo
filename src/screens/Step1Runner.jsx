@@ -3,7 +3,6 @@ import DialogueBox from '../components/DialogueBox.jsx'
 import {
   OBSTACLE_ICONS,
   RunnerChar,
-  MapMark,
   DiscoBall,
   BigBen,
   River,
@@ -64,7 +63,7 @@ function Scenery({ chapterKey }) {
     return (
       <>
         <div className="scenery scenery-river">
-          <River size={440} />
+          <River />
         </div>
         <div className="scenery scenery-ponte-v">
           <BridgeVertical size={130} />
@@ -80,7 +79,7 @@ function Scenery({ chapterKey }) {
   return null
 }
 
-export default function Step1Runner({ onComplete }) {
+export default function Step1Runner({ onComplete, onWin }) {
   const [started, setStarted] = useState(false)
   const [chapterIdx, setChapterIdx] = useState(0)
   const [showTitle, setShowTitle] = useState(true)
@@ -88,8 +87,8 @@ export default function Step1Runner({ onComplete }) {
   const [jumping, setJumping] = useState(false)
   const [push, setPush] = useState(false)
   const [finished, setFinished] = useState(false)
-  const [reveal, setReveal] = useState(false) // card appuntamento
   const [cleared, setCleared] = useState(0)
+  const wonRef = useRef(false)
 
   const spawnedRef = useRef(0)
   const jumpTimerRef = useRef(null)
@@ -152,7 +151,6 @@ export default function Step1Runner({ onComplete }) {
                 setChapterIdx((i) => i + 1)
               } else {
                 setFinished(true)
-                setReveal(true)
               }
             }
             return total
@@ -167,6 +165,15 @@ export default function Step1Runner({ onComplete }) {
     return () => cancelAnimationFrame(rafRef.current)
   }, [started, showTitle, finished, chapter, chapterIdx])
 
+  // alla fine della corsa: sblocca subito la lettera (parte l'animazione),
+  // poi mostra il messaggio di fine livello
+  useEffect(() => {
+    if (finished && !wonRef.current) {
+      wonRef.current = true
+      onWin && onWin()
+    }
+  }, [finished, onWin])
+
   function doJump() {
     if (finished || !started || showTitle) return
     if (jumpingRef.current) return
@@ -178,7 +185,7 @@ export default function Step1Runner({ onComplete }) {
     jumpTimerRef.current = setTimeout(() => {
       jumpingRef.current = false
       setJumping(false)
-    }, 560)
+    }, 740)
   }
 
   // collisione: se non salta e tocca un ostacolo, viene spinta indietro.
@@ -214,31 +221,14 @@ export default function Step1Runner({ onComplete }) {
     )
   }
 
-  // --- Card appuntamento + dialogo di congratulazioni prima di sbloccare la lettera ---
+  // --- Messaggio di fine livello (la lettera è già stata sbloccata da onWin) ---
   if (finished) {
-    if (reveal) {
-      return (
-        <div className="screen" style={{ background: CHAPTERS[CHAPTERS.length - 1].bg }}>
-          <div className="title-card">
-            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 10 }}>
-              <MapMark size={44} />
-            </div>
-            Sabato 18, ore 18{'\n'}ti aspetto sotto casa tua
-            <div style={{ marginTop: 16 }}>
-              <button className="pixel-btn" onClick={() => setReveal(false)}>
-                CONTINUA
-              </button>
-            </div>
-          </div>
-        </div>
-      )
-    }
     return (
       <div className="screen" style={{ background: CHAPTERS[CHAPTERS.length - 1].bg }}>
         <DialogueBox
           lines={[
-            { speaker: 'nico', text: 'Complimenti! Hai sbloccato una lettera. 🎉' },
-            { speaker: 'nico', text: 'Continua a giocare per sbloccarne altre!' },
+            { speaker: 'nico', text: 'Complimenti! Hai completato questo livello. 🎉' },
+            { speaker: 'nico', text: 'Ci vediamo il 18 alle 18 sotto casa tua, per giocare ancora!' },
           ]}
           action={
             <button className="pixel-btn" onClick={onComplete}>

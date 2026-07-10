@@ -254,13 +254,13 @@ export const Bridge = ({ size = 320 }) => (
   </svg>
 )
 
-export const River = ({ size = 420 }) => (
-  <svg width={size} height={size * 0.24} viewBox="0 0 300 72" fill="none"
-    xmlns="http://www.w3.org/2000/svg">
-    <path d="M0 18q25-12 50 0t50 0t50 0t50 0t50 0V72H0Z" fill="#6db6e8"
-      stroke={INK} strokeWidth="4" />
-    <path d="M24 40q10-6 20 0M118 50q10-6 20 0M212 42q10-6 20 0M70 58q10-6 20 0"
-      stroke="#bfe4f7" strokeWidth="4" strokeLinecap="round" />
+export const River = () => (
+  <svg width="100%" height="100%" viewBox="0 0 300 72" preserveAspectRatio="none"
+    fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 18q25-12 50 0t50 0t50 0t50 0t50 0V72H0Z" fill="#6db6e8" />
+    <path d="M0 18q25-12 50 0t50 0t50 0t50 0t50 0" stroke={INK} strokeWidth="3" fill="none" />
+    <path d="M24 40q10-6 20 0M118 50q10-6 20 0M212 42q10-6 20 0M70 58q10-6 20 0M250 60q10-6 20 0"
+      stroke="#bfe4f7" strokeWidth="3" strokeLinecap="round" />
   </svg>
 )
 
