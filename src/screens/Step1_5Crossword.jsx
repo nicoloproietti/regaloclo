@@ -14,11 +14,18 @@ const SLOTS = [
   { correct: 'A', options: ['E', 'A', 'O'] },
 ]
 
+// parte sempre da una lettera SBAGLIATA per ogni rotella
 function randomStart() {
-  return SLOTS.map((s) => Math.floor(Math.random() * s.options.length))
+  return SLOTS.map((s) => {
+    const wrong = s.options
+      .map((_, idx) => idx)
+      .filter((idx) => s.options[idx] !== s.correct)
+    return wrong[Math.floor(Math.random() * wrong.length)]
+  })
 }
 
 export default function Step1_5Crossword({ onComplete }) {
+  const [started, setStarted] = useState(false)
   const [indices, setIndices] = useState(randomStart)
   const [solved, setSolved] = useState(false)
   const [dialogueDone, setDialogueDone] = useState(false)
@@ -36,6 +43,25 @@ export default function Step1_5Crossword({ onComplete }) {
       if (done) setTimeout(() => setSolved(true), 250)
       return next
     })
+  }
+
+  // dialogo introduttivo prima del minigioco
+  if (!started) {
+    return (
+      <div className="screen">
+        <DialogueBox
+          lines={[
+            { speaker: 'nico', text: 'Okay, ora possiamo giocare di nuovo!' },
+            { speaker: 'nico', text: 'Completa questo minigioco per scoprire la nostra destinazione.' },
+          ]}
+          action={
+            <button className="pixel-btn" onClick={() => setStarted(true)}>
+              GIOCA
+            </button>
+          }
+        />
+      </div>
+    )
   }
 
   if (solved && !dialogueDone) {
