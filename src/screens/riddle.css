@@ -37,9 +37,9 @@
 
 .verse-card.dragging {
   cursor: grabbing;
-  transform: scale(1.03);
   background: #fffdf6;
   box-shadow: 0 12px 0 var(--wood-dark), 0 18px 26px var(--shadow);
+  position: relative;
   z-index: 5;
 }
 
