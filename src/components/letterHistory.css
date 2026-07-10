@@ -1,0 +1,102 @@
+.letter-history-toggle {
+  position: fixed;
+  top: 14px;
+  right: 14px;
+  z-index: 20;
+  background: var(--gb-dark);
+  color: var(--gb-pale);
+  border: 3px solid var(--gb-pale);
+  width: 40px;
+  height: 40px;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.letter-history-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(6, 16, 6, 0.92);
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.letter-history-panel {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  height: 340px;
+  background: var(--gb-dark);
+  border: 4px solid var(--gb-pale);
+  overflow: hidden;
+}
+
+.letter-history-title {
+  position: absolute;
+  top: 10px;
+  left: 12px;
+  font-size: 10px;
+  color: var(--gb-light);
+}
+
+.letter-history-grid {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.letter-slot {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 60px;
+}
+
+.letter-glyph {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  border: 3px solid var(--gb-pale);
+  background: rgba(139, 172, 15, 0.08);
+}
+
+.letter-hidden .letter-glyph {
+  color: var(--gb-mid);
+  border-color: var(--gb-mid);
+}
+
+.letter-teaser .letter-glyph {
+  color: var(--gb-mid);
+  background: var(--gb-mid);
+}
+
+.letter-full .letter-glyph {
+  color: var(--gb-dark);
+  background: var(--gb-light);
+}
+
+.letter-caption {
+  font-size: 6px;
+  margin-top: 6px;
+  text-align: center;
+  color: var(--gb-light);
+  line-height: 1.4;
+}
+
+.letter-history-close {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 9px;
+  padding: 8px 14px;
+}

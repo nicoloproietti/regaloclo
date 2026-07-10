@@ -1,0 +1,25 @@
+.riddle-input-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.riddle-input {
+  flex: 1;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px;
+  background: var(--gb-bg);
+  border: 3px solid var(--gb-pale);
+  color: var(--gb-pale);
+  padding: 8px;
+}
+
+.riddle-retry {
+  margin-top: 10px;
+  font-size: 9px;
+  color: var(--gb-light);
+}
+
+.riddle-solved-bg {
+  background: linear-gradient(180deg, #0b1030, #000);
+}

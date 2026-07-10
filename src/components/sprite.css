@@ -1,0 +1,52 @@
+.sprite-wrap {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  image-rendering: pixelated;
+}
+
+.sprite {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sprite-head {
+  width: 60%;
+  height: 40%;
+  border-radius: 2px;
+}
+
+.sprite-body {
+  width: 80%;
+  height: 55%;
+  margin-top: 4%;
+  border-radius: 2px;
+}
+
+.sprite-nico .sprite-head {
+  background: #3b2a1a;
+}
+.sprite-nico .sprite-body {
+  background: #3a5fcd;
+}
+
+.sprite-claudia .sprite-head {
+  background: #e8c477;
+}
+.sprite-claudia .sprite-body {
+  background: #2f4dbf;
+}
+
+.sprite-reaction {
+  position: absolute;
+  top: -20px;
+  font-size: 16px;
+  animation: pop 1.4s ease-in-out infinite;
+}
+
+@keyframes pop {
+  0%, 100% { transform: translateY(0); opacity: 0.9; }
+  50% { transform: translateY(-6px); opacity: 1; }
+}
