@@ -1,25 +1,33 @@
 .riddle-input-row {
   display: flex;
-  gap: 8px;
-  margin-top: 14px;
+  gap: 10px;
+  margin-top: 16px;
 }
 
 .riddle-input {
   flex: 1;
-  font-family: 'Press Start 2P', monospace;
-  font-size: 10px;
-  background: var(--gb-bg);
-  border: 3px solid var(--gb-pale);
-  color: var(--gb-pale);
-  padding: 8px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  background: #fff;
+  border-radius: 999px;
+  border: 3px solid var(--purple);
+  color: var(--ink);
+  padding: 10px 16px;
+}
+
+.riddle-input:focus {
+  outline: none;
+  border-color: var(--purple-dark);
 }
 
 .riddle-retry {
-  margin-top: 10px;
-  font-size: 9px;
-  color: var(--gb-light);
+  margin-top: 12px;
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--coral);
 }
 
 .riddle-solved-bg {
-  background: linear-gradient(180deg, #0b1030, #000);
+  background: linear-gradient(180deg, #2f2560, #0f0c22);
 }

@@ -8,24 +8,42 @@
   touch-action: manipulation;
 }
 
+.runner-screen::before,
+.runner-screen::after {
+  content: '';
+  position: absolute;
+  top: 8%;
+  width: 120px;
+  height: 46px;
+  background: #fff;
+  border-radius: 999px;
+  opacity: 0.8;
+  box-shadow: 30px 18px 0 -6px #fff, -30px 10px 0 -10px #fff;
+}
+.runner-screen::before { left: -10px; }
+.runner-screen::after { right: -10px; top: 22%; transform: scale(0.7); }
+
 .runner-title-card {
   position: absolute;
-  top: 30%;
+  top: 26%;
   left: 50%;
   transform: translateX(-50%);
-  font-size: 14px;
+  font-family: 'Baloo 2', sans-serif;
+  font-size: 22px;
+  font-weight: 800;
   text-align: center;
-  background: rgba(6, 16, 6, 0.75);
-  border: 3px solid var(--gb-pale);
-  padding: 14px 18px;
+  background: #fff;
+  border-radius: 999px;
+  padding: 14px 28px;
   z-index: 5;
-  color: var(--gb-pale);
+  color: var(--ink);
+  box-shadow: 0 8px 0 rgba(20, 20, 40, 0.18), 0 14px 20px var(--shadow);
 }
 
 .runner-track {
   position: relative;
   width: 100%;
-  height: 40vh;
+  height: 42vh;
   overflow: hidden;
 }
 
@@ -33,16 +51,19 @@
   position: absolute;
   bottom: 0;
   width: 100%;
-  height: 6px;
-  background: var(--gb-pale);
+  height: 34px;
+  background: linear-gradient(180deg, var(--grass), var(--grass-dark));
+  border-top: 4px solid #fff;
+  box-shadow: 0 -4px 0 rgba(0, 0, 0, 0.08) inset;
 }
 
 .runner-player {
   position: absolute;
-  bottom: 6px;
+  bottom: 30px;
   left: 15%;
-  font-size: 34px;
+  font-size: 42px;
   transition: transform 0.2s ease;
+  filter: drop-shadow(0 6px 4px rgba(20, 20, 40, 0.3));
 }
 
 .runner-player.jump {
@@ -50,28 +71,40 @@
 }
 
 .runner-player.bump {
-  transform: translateX(-6px) rotate(-8deg);
+  transform: translateX(-6px) rotate(-10deg);
 }
 
 @keyframes jump-arc {
-  0% { transform: translateY(0); }
-  40% { transform: translateY(-70px); }
-  100% { transform: translateY(0); }
+  0% { transform: translateY(0) rotate(0); }
+  40% { transform: translateY(-76px) rotate(-8deg); }
+  100% { transform: translateY(0) rotate(0); }
 }
 
 .runner-obstacle {
   position: absolute;
-  bottom: 6px;
-  font-size: 28px;
+  bottom: 30px;
+  font-size: 30px;
   transform: translateX(-50%);
+  background: #fff;
+  border-radius: 50%;
+  width: 46px;
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 5px 0 rgba(20, 20, 40, 0.15), 0 8px 12px var(--shadow);
 }
 
 .runner-hint {
   position: absolute;
-  bottom: 14px;
+  bottom: 16px;
   left: 50%;
   transform: translateX(-50%);
-  font-size: 9px;
-  color: var(--gb-pale);
-  opacity: 0.8;
+  font-family: 'Baloo 2', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+  background: rgba(20, 20, 40, 0.35);
+  padding: 6px 16px;
+  border-radius: 999px;
 }

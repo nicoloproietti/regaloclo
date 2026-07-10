@@ -1,21 +1,30 @@
 import { motion } from 'framer-motion'
 import './sprite.css'
 
-// Placeholder pixel sprite: blocco colorato con "idle bob".
-// Verrà sostituito con vera pixel art in una fase successiva.
-export default function Sprite({ who, reaction, size = 72 }) {
+// Placeholder cartoon: personaggio con testa tonda, occhioni e outline spesso,
+// in stile "buddy" da mobile game (Jetpack Joyride-ish). Verrà rifinito in seguito.
+export default function Sprite({ who, reaction, size = 88 }) {
   const isNico = who === 'nico'
   return (
-    <div className="sprite-wrap" style={{ width: size, height: size }}>
+    <div className="sprite-wrap" style={{ width: size, height: size * 1.15 }}>
       {reaction && <div className="sprite-reaction">{reaction}</div>}
       <motion.div
         className={`sprite ${isNico ? 'sprite-nico' : 'sprite-claudia'}`}
-        style={{ width: size, height: size }}
-        animate={{ y: [0, -4, 0] }}
-        transition={{ duration: 1.2, repeat: Infinity, ease: 'easeInOut' }}
+        animate={{ y: [0, -6, 0], rotate: [0, isNico ? -2 : 2, 0] }}
+        transition={{ duration: 1.4, repeat: Infinity, ease: 'easeInOut' }}
       >
-        <div className="sprite-head" />
-        <div className="sprite-body" />
+        <div className="sprite-hair" />
+        <div className="sprite-head">
+          <div className="sprite-eye sprite-eye-l" />
+          <div className="sprite-eye sprite-eye-r" />
+          <div className="sprite-cheek sprite-cheek-l" />
+          <div className="sprite-cheek sprite-cheek-r" />
+          <div className="sprite-smile" />
+        </div>
+        <div className="sprite-body">
+          <div className="sprite-arm sprite-arm-l" />
+          <div className="sprite-arm sprite-arm-r" />
+        </div>
       </motion.div>
     </div>
   )
