@@ -66,6 +66,16 @@
   filter: drop-shadow(0 6px 4px rgba(20, 20, 40, 0.3));
 }
 
+.runner-legs {
+  transform-origin: 52px 62px;
+  animation: legs 0.28s ease-in-out infinite alternate;
+}
+
+@keyframes legs {
+  from { transform: rotate(-6deg); }
+  to { transform: rotate(6deg); }
+}
+
 .runner-player.jump {
   animation: jump-arc 0.52s ease;
 }
