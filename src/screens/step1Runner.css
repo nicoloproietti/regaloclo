@@ -109,10 +109,11 @@
 }
 
 .scenery-river {
-  bottom: 74px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 150%;
+  left: 0;
+  right: 0;
+  bottom: 30px;
+  width: 100%;
+  height: 92px;
   filter: none;
 }
 
@@ -151,7 +152,7 @@
 }
 
 .runner-player.jump {
-  animation: jump-arc 0.56s ease;
+  animation: jump-arc 0.74s ease;
 }
 
 .runner-player.push {
@@ -166,7 +167,8 @@
 
 @keyframes jump-arc {
   0% { transform: translateY(0); }
-  40% { transform: translateY(-116px); }
+  38% { transform: translateY(-134px); }
+  58% { transform: translateY(-134px); }
   100% { transform: translateY(0); }
 }
 
