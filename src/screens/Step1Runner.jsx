@@ -6,7 +6,8 @@ import {
   MapMark,
   DiscoBall,
   BigBen,
-  Bridge,
+  River,
+  BridgeVertical,
   Trattoria,
 } from '../components/Icon.jsx'
 import './step1Runner.css'
@@ -61,9 +62,14 @@ function Scenery({ chapterKey }) {
     )
   if (chapterKey === 'pontemilvio')
     return (
-      <div className="scenery scenery-bridge">
-        <Bridge size={320} />
-      </div>
+      <>
+        <div className="scenery scenery-river">
+          <River size={440} />
+        </div>
+        <div className="scenery scenery-ponte-v">
+          <BridgeVertical size={130} />
+        </div>
+      </>
     )
   if (chapterKey === 'pranzo')
     return (

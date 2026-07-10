@@ -254,6 +254,34 @@ export const Bridge = ({ size = 320 }) => (
   </svg>
 )
 
+export const River = ({ size = 420 }) => (
+  <svg width={size} height={size * 0.24} viewBox="0 0 300 72" fill="none"
+    xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 18q25-12 50 0t50 0t50 0t50 0t50 0V72H0Z" fill="#6db6e8"
+      stroke={INK} strokeWidth="4" />
+    <path d="M24 40q10-6 20 0M118 50q10-6 20 0M212 42q10-6 20 0M70 58q10-6 20 0"
+      stroke="#bfe4f7" strokeWidth="4" strokeLinecap="round" />
+  </svg>
+)
+
+// Ponte visto in prospettiva (in verticale), con arcata sopra il fiume
+export const BridgeVertical = ({ size = 130 }) => (
+  <svg width={size} height={size * 1.35} viewBox="0 0 120 162" fill="none"
+    stroke={INK} strokeWidth="5" strokeLinecap="round" strokeLinejoin="round"
+    xmlns="http://www.w3.org/2000/svg">
+    {/* arcata in pietra sopra il fiume */}
+    <path d="M26 150a34 30 0 0 1 68 0" fill="none" stroke="#c9a86a" strokeWidth="14" />
+    <path d="M26 150a34 30 0 0 1 68 0" fill="none" stroke={INK} strokeWidth="4" />
+    {/* campata del ponte in prospettiva */}
+    <path d="M38 150L54 30h12l16 120z" fill="#e6d3a6" />
+    {/* traversine */}
+    <path d="M43 128h34M46 104h28M49 80h22M52 56h16" stroke="#b79a63" strokeWidth="4" />
+    {/* ringhiere */}
+    <path d="M34 150L52 30M86 150L68 30" strokeWidth="5" />
+    <path d="M40 118l-3 0M80 118l3 0M44 90l-2 0M76 90l2 0" strokeWidth="4" />
+  </svg>
+)
+
 export const Trattoria = ({ size = 150 }) => (
   <svg width={size} height={size * 0.9} viewBox="0 0 150 135" fill="none"
     xmlns="http://www.w3.org/2000/svg">
