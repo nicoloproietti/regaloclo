@@ -1,44 +1,105 @@
-import { useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { CONFIG } from '../config.js'
 import './newspaper.css'
 
-// "La Prima Pagina": componi il titolo di prima pagina, poi manda in stampa.
-// Il nome del posto (CONFIG.restaurantName) è il reveal, NON va indovinato:
-// così puoi cambiarlo in un secondo momento senza toccare il gioco.
-const HEADLINE = ['STASERA', 'SI', 'CENA', 'A']
+// Step 2 – Conferenza stampa a raffica (tema giornalismo).
+// I cartoncini-domanda scorrono: tocca solo le domande GIUSTE sull'evento
+// di stasera (dove si cena) ed evita quelle fuori tema. 5 buone => scoop.
+const TARGET = 5
 
-function shuffle(arr) {
-  const a = [...arr]
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1))
-    ;[a[i], a[j]] = [a[j], a[i]]
-  }
-  return a
-}
+const GOOD = [
+  'Dove si cena stasera?',
+  'Il locale è sul mare?',
+  'A che ora è il tavolo?',
+  'Chi ha prenotato?',
+  'C\'è una vista speciale?',
+  'Quanti coperti stasera?',
+  'Che menù ci sarà?',
+]
+const BAD = [
+  'Che scarpe indossa?',
+  'Di che segno è?',
+  'Cane o gatto?',
+  'Ultima serie vista?',
+  'Colore preferito?',
+  'Che tempo farà a Natale?',
+  'Sa cucinare la carbonara?',
+]
 
-function initialPool() {
-  let tiles = HEADLINE.map((w, i) => ({ id: i, w }))
-  let s = shuffle(tiles)
-  // evita che escano già in ordine
-  if (s.map((t) => t.w).join(' ') === HEADLINE.join(' ')) s = shuffle(tiles)
-  return s
-}
+const LANES = [12, 30, 48, 66]
 
 export default function Step2Newspaper({ onComplete }) {
-  const [pool] = useState(initialPool)
-  const [answer, setAnswer] = useState([]) // array di tile
+  const [cards, setCards] = useState([])
+  const [collected, setCollected] = useState(0)
+  const [flash, setFlash] = useState(null) // {kind:'ok'|'no'}
   const [published, setPublished] = useState(false)
 
-  const usedIds = new Set(answer.map((t) => t.id))
-  const correct = answer.map((t) => t.w).join(' ') === HEADLINE.join(' ')
-  const filledWrong = answer.length === HEADLINE.length && !correct
+  const idRef = useRef(0)
+  const rafRef = useRef(null)
+  const spawnRef = useRef(null)
+  const laneRef = useRef(0)
 
-  function place(tile) {
-    if (usedIds.has(tile.id) || answer.length >= HEADLINE.length) return
-    setAnswer((a) => [...a, tile])
-  }
-  function removeAt(idx) {
-    setAnswer((a) => a.filter((_, i) => i !== idx))
+  const done = collected >= TARGET
+
+  const spawn = useCallback(() => {
+    idRef.current += 1
+    const good = Math.random() < 0.55
+    const pool = good ? GOOD : BAD
+    const text = pool[Math.floor(Math.random() * pool.length)]
+    const lane = LANES[laneRef.current % LANES.length]
+    laneRef.current += 1
+    const rot = (Math.random() * 6 - 3).toFixed(1)
+    setCards((c) => [
+      ...c,
+      { id: idRef.current, text, good, x: 104, y: lane, speed: 1.5 + Math.random() * 0.7, rot },
+    ])
+  }, [])
+
+  useEffect(() => {
+    if (published || done) return
+    spawnRef.current = setInterval(spawn, 950)
+    return () => clearInterval(spawnRef.current)
+  }, [published, done, spawn])
+
+  useEffect(() => {
+    if (published || done) return
+    let last = performance.now()
+    function tick(now) {
+      const dt = (now - last) / 1000
+      last = now
+      setCards((prev) =>
+        prev
+          .map((k) => ({ ...k, x: k.x - k.speed * dt * 10 }))
+          .filter((k) => k.x > -40)
+      )
+      rafRef.current = requestAnimationFrame(tick)
+    }
+    rafRef.current = requestAnimationFrame(tick)
+    return () => cancelAnimationFrame(rafRef.current)
+  }, [published, done])
+
+  useEffect(() => {
+    if (done && !published) {
+      const t = setTimeout(() => setPublished(true), 600)
+      return () => clearTimeout(t)
+    }
+  }, [done, published])
+
+  useEffect(() => () => {
+    clearInterval(spawnRef.current)
+    cancelAnimationFrame(rafRef.current)
+  }, [])
+
+  function tapCard(card) {
+    setCards((c) => c.filter((k) => k.id !== card.id))
+    if (card.good) {
+      setCollected((n) => Math.min(TARGET, n + 1))
+      setFlash({ kind: 'ok' })
+    } else {
+      setCollected((n) => Math.max(0, n - 1))
+      setFlash({ kind: 'no' })
+    }
+    setTimeout(() => setFlash(null), 500)
   }
 
   if (published) {
@@ -64,50 +125,39 @@ export default function Step2Newspaper({ onComplete }) {
 
   return (
     <div className="news-screen">
-      <div className="news-paper">
-        <div className="news-masthead">{CONFIG.newspaperName}</div>
+      <div className="news-paper pc-paper">
+        <div className="news-masthead">CONFERENZA STAMPA</div>
         <div className="news-rule" />
-        <div className="news-date">{CONFIG.newspaperDate}</div>
-
-        <div className="news-task">Componi il titolo di prima pagina</div>
-
-        <div className={`news-slots ${filledWrong ? 'shake' : ''}`}>
-          {HEADLINE.map((_, i) => {
-            const tile = answer[i]
-            return (
-              <button
-                key={i}
-                className={`news-slot ${tile ? 'filled' : ''}`}
-                onClick={() => tile && removeAt(i)}
-              >
-                {tile ? tile.w : ''}
-              </button>
-            )
-          })}
+        <div className="pc-instruction">
+          Fai solo le domande giuste sull'evento di stasera
         </div>
 
-        <div className="news-pool">
-          {pool.map((tile) => (
+        <div className={`pc-stage ${flash ? `flash-${flash.kind}` : ''}`}>
+          {cards.map((k) => (
             <button
-              key={tile.id}
-              className={`news-tile ${usedIds.has(tile.id) ? 'used' : ''}`}
-              onClick={() => place(tile)}
-              disabled={usedIds.has(tile.id)}
+              key={k.id}
+              className="pc-card"
+              style={{ left: `${k.x}%`, top: `${k.y}%`, transform: `rotate(${k.rot}deg)` }}
+              onClick={() => tapCard(k)}
             >
-              {tile.w}
+              <span className="pc-mic">🎤</span>
+              {k.text}
             </button>
           ))}
+          {flash && (
+            <div className={`pc-flash pc-flash-${flash.kind}`}>
+              {flash.kind === 'ok' ? 'Buona domanda!' : 'Fuori tema!'}
+            </div>
+          )}
         </div>
 
-        {filledWrong && <div className="news-msg">Il titolo non torna... riprova ✍️</div>}
-
-        <button
-          className="pixel-btn news-publish"
-          disabled={!correct}
-          onClick={() => setPublished(true)}
-        >
-          MANDA IN STAMPA
-        </button>
+        <div className="pc-progress">
+          <span>SCOOP</span>
+          <div className="pc-bar">
+            <div className="pc-bar-fill" style={{ width: `${(collected / TARGET) * 100}%` }} />
+          </div>
+          <span>{collected}/{TARGET}</span>
+        </div>
       </div>
     </div>
   )
