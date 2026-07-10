@@ -239,30 +239,34 @@ export default function Step1Runner({ onComplete }) {
 
   return (
     <div className="runner-screen" style={{ background: chapter.bg }}>
-      <div className="runner-location">{chapter.title}</div>
-      {showTitle && <div className="runner-title-card">{chapter.title}</div>}
+      <div className="runner-stage">
+        <div className="runner-location">{chapter.title}</div>
+        {showTitle && <div className="runner-title-card">{chapter.title}</div>}
 
-      <div className="runner-track">
-        <Scenery chapterKey={chapter.key} />
+        <div className="runner-track">
+          <Scenery chapterKey={chapter.key} />
 
-        {obstacles.map((o) => {
-          const Obstacle = OBSTACLE_ICONS[o.kind]
-          return (
-            <div key={o.id} className="runner-obstacle" style={{ left: `${o.x}%` }}>
-              <Obstacle size={58} />
-            </div>
-          )
-        })}
+          {obstacles.map((o) => {
+            const Obstacle = OBSTACLE_ICONS[o.kind]
+            return (
+              <div key={o.id} className="runner-obstacle" style={{ left: `${o.x}%` }}>
+                <Obstacle size={58} />
+              </div>
+            )
+          })}
 
-        <div className={`runner-player ${jumping ? 'jump' : ''} ${push ? 'push' : ''}`}>
-          <RunnerChar size={70} />
+          <div className={`runner-player ${jumping ? 'jump' : ''} ${push ? 'push' : ''}`}>
+            <RunnerChar size={70} />
+          </div>
+          <div className="runner-ground" />
         </div>
-        <div className="runner-ground" />
       </div>
 
-      <button className="runner-jump-btn" onClick={doJump}>
-        SALTA
-      </button>
+      <div className="runner-controls">
+        <button className="runner-jump-btn" onClick={doJump}>
+          SALTA
+        </button>
+      </div>
     </div>
   )
 }
