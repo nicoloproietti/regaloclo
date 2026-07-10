@@ -254,31 +254,47 @@ export const Bridge = ({ size = 320 }) => (
   </svg>
 )
 
+// Fiume: banda d'acqua che riempie tutta la larghezza (path fino a x=300)
 export const River = () => (
-  <svg width="100%" height="100%" viewBox="0 0 300 72" preserveAspectRatio="none"
+  <svg width="100%" height="100%" viewBox="0 0 300 100" preserveAspectRatio="none"
     fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M0 18q25-12 50 0t50 0t50 0t50 0t50 0V72H0Z" fill="#6db6e8" />
-    <path d="M0 18q25-12 50 0t50 0t50 0t50 0t50 0" stroke={INK} strokeWidth="3" fill="none" />
-    <path d="M24 40q10-6 20 0M118 50q10-6 20 0M212 42q10-6 20 0M70 58q10-6 20 0M250 60q10-6 20 0"
-      stroke="#bfe4f7" strokeWidth="3" strokeLinecap="round" />
+    <path d="M0 24q30-16 60 0t60 0t60 0t60 0t60 0V100H0Z" fill="#5fb0e6" />
+    <path d="M0 24q30-16 60 0t60 0t60 0t60 0t60 0" stroke="#9fd4f2" strokeWidth="6" fill="none" />
+    <g stroke="#bfe4f7" strokeWidth="3" fill="none" strokeLinecap="round">
+      <path d="M28 52q12-7 24 0" />
+      <path d="M132 62q12-7 24 0" />
+      <path d="M228 54q12-7 24 0" />
+      <path d="M80 78q12-7 24 0" />
+      <path d="M196 84q12-7 24 0" />
+    </g>
   </svg>
 )
 
-// Ponte visto in prospettiva (in verticale), con arcata sopra il fiume
-export const BridgeVertical = ({ size = 130 }) => (
-  <svg width={size} height={size * 1.35} viewBox="0 0 120 162" fill="none"
-    stroke={INK} strokeWidth="5" strokeLinecap="round" strokeLinejoin="round"
+// Ponte in pietra ad arcate (stile Ponte Milvio), con lucchetti dell'amore
+export const StoneBridge = ({ size = 320 }) => (
+  <svg width={size} height={size * 0.52} viewBox="0 0 300 156" fill="none"
+    stroke={INK} strokeWidth="4" strokeLinejoin="round" strokeLinecap="round"
     xmlns="http://www.w3.org/2000/svg">
-    {/* arcata in pietra sopra il fiume */}
-    <path d="M26 150a34 30 0 0 1 68 0" fill="none" stroke="#c9a86a" strokeWidth="14" />
-    <path d="M26 150a34 30 0 0 1 68 0" fill="none" stroke={INK} strokeWidth="4" />
-    {/* campata del ponte in prospettiva */}
-    <path d="M38 150L54 30h12l16 120z" fill="#e6d3a6" />
-    {/* traversine */}
-    <path d="M43 128h34M46 104h28M49 80h22M52 56h16" stroke="#b79a63" strokeWidth="4" />
-    {/* ringhiere */}
-    <path d="M34 150L52 30M86 150L68 30" strokeWidth="5" />
-    <path d="M40 118l-3 0M80 118l3 0M44 90l-2 0M76 90l2 0" strokeWidth="4" />
+    {/* corpo del ponte */}
+    <path d="M16 74h268v54H16z" fill="#e3cfa0" />
+    {/* arcate (acqua sotto) */}
+    <path d="M40 128a30 30 0 0 1 60 0z" fill="#5fb0e6" />
+    <path d="M120 128a30 30 0 0 1 60 0z" fill="#5fb0e6" />
+    <path d="M200 128a30 30 0 0 1 60 0z" fill="#5fb0e6" />
+    {/* chiavi di volta */}
+    <path d="M70 88v10M150 88v10M230 88v10" stroke="#c4a970" strokeWidth="5" />
+    {/* parapetto */}
+    <rect x="10" y="56" width="280" height="20" rx="6" fill="#efe0bb" />
+    {/* pilastrini della ringhiera */}
+    <path d="M40 56v-12M90 56v-12M150 56v-12M210 56v-12M260 56v-12" strokeWidth="5" />
+    <path d="M28 44h244" strokeWidth="5" />
+    {/* lucchetti dell'amore */}
+    <g stroke={INK} strokeWidth="3">
+      <rect x="112" y="46" width="12" height="12" rx="2" fill="#ffd15c" />
+      <path d="M114 46v-3a4 4 0 0 1 8 0v3" fill="none" />
+      <rect x="178" y="46" width="12" height="12" rx="2" fill="#ff9bb3" />
+      <path d="M180 46v-3a4 4 0 0 1 8 0v3" fill="none" />
+    </g>
   </svg>
 )
 

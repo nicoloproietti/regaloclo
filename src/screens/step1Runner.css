@@ -117,10 +117,12 @@
   filter: none;
 }
 
-.scenery-ponte-v {
-  bottom: 34px;
+.scenery-bridge {
+  bottom: 28px;
   left: 50%;
   transform: translateX(-50%);
+  width: 340px;
+  max-width: 94%;
 }
 
 .scenery-trattoria {
