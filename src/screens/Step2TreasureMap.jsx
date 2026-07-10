@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react'
+import DialogueBox from '../components/DialogueBox.jsx'
 import { CONFIG } from '../config.js'
 import './treasureMap.css'
 

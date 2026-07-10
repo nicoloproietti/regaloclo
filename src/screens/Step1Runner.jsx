@@ -132,7 +132,8 @@ export default function Step1Runner({ onComplete }) {
     return (
       <div className="screen" style={{ background: CHAPTERS[CHAPTERS.length - 1].bg }}>
         <div className="title-card">
-          📍 Sabato 18, ore 18{'\n'}ti aspetto sotto casa tua
+          📍 {chapter.title === 'LONDRA' ? '' : ''}
+          Sabato 18, ore 18{'\n'}ti aspetto sotto casa tua
           <div style={{ marginTop: 16 }}>
             <button className="pixel-btn" onClick={onComplete}>
               CONTINUA
