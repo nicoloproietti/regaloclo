@@ -6,7 +6,7 @@ import {
   DiscoBall,
   BigBen,
   River,
-  BridgeVertical,
+  StoneBridge,
   Trattoria,
 } from '../components/Icon.jsx'
 import './step1Runner.css'
@@ -65,8 +65,8 @@ function Scenery({ chapterKey }) {
         <div className="scenery scenery-river">
           <River />
         </div>
-        <div className="scenery scenery-ponte-v">
-          <BridgeVertical size={130} />
+        <div className="scenery scenery-bridge">
+          <StoneBridge size={340} />
         </div>
       </>
     )
