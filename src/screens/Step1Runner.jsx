@@ -91,12 +91,14 @@ export default function Step1Runner({ onComplete }) {
   const rafRef = useRef(null)
   const spawnTimerRef = useRef(null)
   const lastBumpRef = useRef(null)
+  const pushTimerRef = useRef(null)
 
   const chapter = CHAPTERS[chapterIdx]
 
   // pulizia timer allo smontaggio
   useEffect(() => () => {
     clearTimeout(jumpTimerRef.current)
+    clearTimeout(pushTimerRef.current)
     clearInterval(spawnTimerRef.current)
     cancelAnimationFrame(rafRef.current)
   }, [])
@@ -163,6 +165,8 @@ export default function Step1Runner({ onComplete }) {
     if (finished || !started || showTitle) return
     if (jumpingRef.current) return
     jumpingRef.current = true
+    setPush(false)
+    clearTimeout(pushTimerRef.current)
     setJumping(true)
     clearTimeout(jumpTimerRef.current)
     jumpTimerRef.current = setTimeout(() => {
@@ -171,15 +175,17 @@ export default function Step1Runner({ onComplete }) {
     }, 560)
   }
 
-  // collisione: se non salta e tocca un ostacolo, viene spinta indietro
+  // collisione: se non salta e tocca un ostacolo, viene spinta indietro.
+  // Il reset di `push` usa una ref dedicata: NON va nel cleanup dell'effetto,
+  // altrimenti verrebbe annullato a ogni frame (obstacles cambia in continuazione).
   useEffect(() => {
-    if (jumping) return
+    if (jumping || jumpingRef.current) return
     const near = obstacles.find((o) => o.x < 22 && o.x > 12)
     if (near && lastBumpRef.current !== near.id) {
       lastBumpRef.current = near.id
       setPush(true)
-      const t = setTimeout(() => setPush(false), 460)
-      return () => clearTimeout(t)
+      clearTimeout(pushTimerRef.current)
+      pushTimerRef.current = setTimeout(() => setPush(false), 460)
     }
   }, [obstacles, jumping])
 
@@ -255,7 +261,7 @@ export default function Step1Runner({ onComplete }) {
             )
           })}
 
-          <div className={`runner-player ${jumping ? 'jump' : ''} ${push ? 'push' : ''}`}>
+          <div className={`runner-player ${jumping ? 'jump' : push ? 'push' : ''}`}>
             <RunnerChar size={70} />
           </div>
           <div className="runner-ground" />
