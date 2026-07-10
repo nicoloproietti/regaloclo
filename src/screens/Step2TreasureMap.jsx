@@ -8,13 +8,14 @@ import './newspaper.css'
 const TARGET = 5
 
 const GOOD = [
-  'Dove si cena stasera?',
-  'Il locale è sul mare?',
-  'A che ora è il tavolo?',
-  'Chi ha prenotato?',
-  'C\'è una vista speciale?',
-  'Quanti coperti stasera?',
-  'Che menù ci sarà?',
+  'C\'è un evento speciale stasera?',
+  'Uscite a cena stasera?',
+  'È una cena fuori a sorpresa?',
+  'In quale ristorante andrete?',
+  'Il tavolo è già prenotato?',
+  'A che ora è la prenotazione?',
+  'La cena è vista mare?',
+  'Cosa festeggiate stasera?',
 ]
 const BAD = [
   'Che scarpe indossa?',
@@ -23,7 +24,8 @@ const BAD = [
   'Ultima serie vista?',
   'Colore preferito?',
   'Che tempo farà a Natale?',
-  'Sa cucinare la carbonara?',
+  'Sa fare la carbonara?',
+  'Che musica ascolta?',
 ]
 
 const LANES = [12, 30, 48, 66]
@@ -129,7 +131,7 @@ export default function Step2Newspaper({ onComplete }) {
         <div className="news-masthead">CONFERENZA STAMPA</div>
         <div className="news-rule" />
         <div className="pc-instruction">
-          Fai solo le domande giuste sull'evento di stasera
+          Fai le domande giuste e scopri lo scoop: stasera si va a cena fuori!
         </div>
 
         <div className={`pc-stage ${flash ? `flash-${flash.kind}` : ''}`}>
