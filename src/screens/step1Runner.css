@@ -93,6 +93,16 @@
   animation: jump-arc 0.52s ease;
 }
 
+.runner-player.push {
+  animation: pushback 0.46s ease;
+}
+
+@keyframes pushback {
+  0% { transform: translateX(0) rotate(0); }
+  35% { transform: translateX(-46px) rotate(-14deg); }
+  100% { transform: translateX(0) rotate(0); }
+}
+
 .runner-player.bump {
   transform: translateX(-6px) rotate(-10deg);
 }
@@ -125,6 +135,64 @@
   background: rgba(20, 20, 40, 0.18);
   border-radius: 50%;
   z-index: -1;
+}
+
+/* nome del luogo sempre visibile in alto */
+.runner-location {
+  position: absolute;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 6;
+  font-family: 'Baloo 2', sans-serif;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  color: var(--ink);
+  background: var(--cream);
+  padding: 8px 20px;
+  border-radius: 999px;
+  border: 3px solid var(--wood);
+  box-shadow: 0 5px 0 var(--wood-dark), 0 8px 14px var(--shadow);
+  white-space: nowrap;
+}
+
+/* scenografie di sfondo */
+.scenery {
+  position: absolute;
+  z-index: 0;
+  pointer-events: none;
+  filter: drop-shadow(0 6px 6px rgba(20, 20, 40, 0.18));
+}
+
+.scenery-disco {
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: disco-drop 1.6s ease-out;
+}
+
+@keyframes disco-drop {
+  from { transform: translate(-50%, -70%); }
+  to { transform: translate(-50%, 0); }
+}
+
+.scenery-bigben {
+  bottom: 30px;
+  right: 6%;
+}
+
+.scenery-bridge {
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 340px;
+  max-width: 96%;
+}
+
+.scenery-trattoria {
+  bottom: 30px;
+  right: 8%;
 }
 
 .runner-hint {

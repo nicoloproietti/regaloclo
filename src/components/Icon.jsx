@@ -215,6 +215,55 @@ export const Envelope = ({ size = 24 }) => (
   </svg>
 )
 
+// ---- Scenografie di sfondo per il minigioco corsa ----
+export const DiscoBall = ({ size = 120 }) => (
+  <svg width={size} height={size * 1.5} viewBox="0 0 120 180" fill="none"
+    xmlns="http://www.w3.org/2000/svg">
+    <path d="M60 0v40" stroke={INK} strokeWidth="4" />
+    <circle cx="60" cy="90" r="46" fill="#cfd8ff" stroke={INK} strokeWidth="5" />
+    <g stroke="#8ea2e8" strokeWidth="3">
+      <path d="M14 90h92M60 44v92M26 58l68 64M94 58l-68 64" />
+      <path d="M22 72h76M22 108h76" />
+    </g>
+    <rect x="40" y="66" width="12" height="12" fill="#fff" opacity="0.9" />
+    <rect x="70" y="96" width="10" height="10" fill="#fff" opacity="0.8" />
+  </svg>
+)
+
+export const BigBen = ({ size = 130 }) => (
+  <svg width={size} height={size * 2.1} viewBox="0 0 130 270" fill="none"
+    xmlns="http://www.w3.org/2000/svg">
+    <path d="M40 90h50v170H40z" fill="#c9a86a" stroke={INK} strokeWidth="5" />
+    <path d="M36 90l29-34 29 34z" fill="#b78a4e" stroke={INK} strokeWidth="5" />
+    <path d="M65 40v16" stroke={INK} strokeWidth="5" />
+    <circle cx="65" cy="120" r="17" fill="#fff8e6" stroke={INK} strokeWidth="5" />
+    <path d="M65 120V108M65 120l9 5" stroke={INK} strokeWidth="4" />
+    <path d="M46 168h38M46 196h38M46 224h38" stroke="#9c7b44" strokeWidth="5" />
+  </svg>
+)
+
+export const Bridge = ({ size = 320 }) => (
+  <svg width={size} height={size * 0.42} viewBox="0 0 320 134" fill="none"
+    xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 92h320" stroke={INK} strokeWidth="6" />
+    <path d="M20 92c26-46 74-46 100 0M110 92c26-46 74-46 100 0M200 92c26-46 74-46 100 0"
+      fill="#e7c88f" stroke={INK} strokeWidth="5" />
+    <path d="M0 62h320" stroke={INK} strokeWidth="6" />
+    <path d="M0 62v-16M60 62v-16M120 62v-16M200 62v-16M260 62v-16M320 62v-16"
+      stroke={INK} strokeWidth="5" />
+  </svg>
+)
+
+export const Trattoria = ({ size = 150 }) => (
+  <svg width={size} height={size * 0.9} viewBox="0 0 150 135" fill="none"
+    xmlns="http://www.w3.org/2000/svg">
+    <circle cx="118" cy="30" r="22" fill="#ffe27a" stroke={INK} strokeWidth="5" />
+    <path d="M20 60h110v14H20z" fill="#e0553f" stroke={INK} strokeWidth="5" />
+    <path d="M20 74l14 18M48 74l14 18M76 74l14 18M104 74l14 18" stroke="#fff" strokeWidth="6" />
+    <path d="M28 92h94v34H28z" fill="#f6e6c8" stroke={INK} strokeWidth="5" />
+  </svg>
+)
+
 // ---- Decorazioni Animal Crossing ----
 export const Leaf = ({ size = 28 }) => (
   <svg width={size} height={size} viewBox="0 0 100 100" fill="none"
