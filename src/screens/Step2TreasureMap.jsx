@@ -1,158 +1,114 @@
-import { useRef, useState } from 'react'
-import { Paw, XMark, MapMark, Chest } from '../components/Icon.jsx'
+import { useState } from 'react'
 import { CONFIG } from '../config.js'
-import './treasureMap.css'
+import './newspaper.css'
 
-// Percorso tratteggiato (percentuali dentro il contenitore mappa)
-const PATH = [
-  { x: 15, y: 88 },
-  { x: 30, y: 70 },
-  { x: 22, y: 52 },
-  { x: 45, y: 40 },
-  { x: 40, y: 22 },
-  { x: 65, y: 15 },
-  { x: 80, y: 10 },
-]
+// "La Prima Pagina": componi il titolo di prima pagina, poi manda in stampa.
+// Il nome del posto (CONFIG.restaurantName) è il reveal, NON va indovinato:
+// così puoi cambiarlo in un secondo momento senza toccare il gioco.
+const HEADLINE = ['STASERA', 'SI', 'CENA', 'A']
 
-const CHECKPOINTS = [
-  { atIndex: 2, clue: '...finché non trovi dove il vento si ferma a bere...' },
-  { atIndex: 4, clue: '...e da lì, segui il profumo di brace verso il buio del mare.' },
-  { atIndex: 6, clue: 'TREASURE' },
-]
-
-function closestOnPath(px, py) {
-  let best = { x: PATH[0].x, y: PATH[0].y, dist: Infinity, index: 0 }
-  for (let i = 0; i < PATH.length; i++) {
-    const p = PATH[i]
-    const d = Math.hypot(p.x - px, p.y - py)
-    if (d < best.dist) best = { x: p.x, y: p.y, dist: d, index: i }
+function shuffle(arr) {
+  const a = [...arr]
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
+    ;[a[i], a[j]] = [a[j], a[i]]
   }
-  return best
+  return a
 }
 
-export default function Step2TreasureMap({ onComplete }) {
-  const [iconPos, setIconPos] = useState(PATH[0])
-  const [reachedCheckpoint, setReachedCheckpoint] = useState(-1) // indice ultimo checkpoint raggiunto
-  const [activeClue, setActiveClue] = useState(null)
-  const [treasureOpen, setTreasureOpen] = useState(false)
-  const [dialogueDone, setDialogueDone] = useState(false)
-  const containerRef = useRef(null)
-  const draggingRef = useRef(false)
+function initialPool() {
+  let tiles = HEADLINE.map((w, i) => ({ id: i, w }))
+  let s = shuffle(tiles)
+  // evita che escano già in ordine
+  if (s.map((t) => t.w).join(' ') === HEADLINE.join(' ')) s = shuffle(tiles)
+  return s
+}
 
-  function toPercent(clientX, clientY) {
-    const rect = containerRef.current.getBoundingClientRect()
-    return {
-      x: ((clientX - rect.left) / rect.width) * 100,
-      y: ((clientY - rect.top) / rect.height) * 100,
-    }
+export default function Step2Newspaper({ onComplete }) {
+  const [pool] = useState(initialPool)
+  const [answer, setAnswer] = useState([]) // array di tile
+  const [published, setPublished] = useState(false)
+
+  const usedIds = new Set(answer.map((t) => t.id))
+  const correct = answer.map((t) => t.w).join(' ') === HEADLINE.join(' ')
+  const filledWrong = answer.length === HEADLINE.length && !correct
+
+  function place(tile) {
+    if (usedIds.has(tile.id) || answer.length >= HEADLINE.length) return
+    setAnswer((a) => [...a, tile])
+  }
+  function removeAt(idx) {
+    setAnswer((a) => a.filter((_, i) => i !== idx))
   }
 
-  function handleMove(clientX, clientY) {
-    const raw = toPercent(clientX, clientY)
-    const closest = closestOnPath(raw.x, raw.y)
-    const pos = closest.dist > 9
-      ? { x: closest.x + (raw.x - closest.x) * 0.25, y: closest.y + (raw.y - closest.y) * 0.25 }
-      : raw
-    setIconPos(pos)
-
-    const nextCheckpoint = CHECKPOINTS[reachedCheckpoint + 1]
-    if (nextCheckpoint && closest.index >= nextCheckpoint.atIndex && closest.dist < 10) {
-      const newIndex = reachedCheckpoint + 1
-      setReachedCheckpoint(newIndex)
-      if (nextCheckpoint.clue === 'TREASURE') {
-        setTreasureOpen(true)
-      } else {
-        setActiveClue(nextCheckpoint.clue)
-      }
-    }
-  }
-
-  function onPointerDown(e) {
-    draggingRef.current = true
-    handleMove(e.clientX, e.clientY)
-  }
-  function onPointerMove(e) {
-    if (!draggingRef.current) return
-    handleMove(e.clientX, e.clientY)
-  }
-  function onPointerUp() {
-    draggingRef.current = false
-    const closest = closestOnPath(iconPos.x, iconPos.y)
-    if (closest.dist > 9) setIconPos({ x: closest.x, y: closest.y })
-  }
-
-  if (treasureOpen && !dialogueDone) {
+  if (published) {
     return (
-      <div className="screen treasure-bg">
-        <div className="chest-reveal">
-          <div className="chest-emoji"><Chest size={96} /></div>
-          <div className="chest-scroll">{CONFIG.restaurantName}</div>
+      <div className="news-screen">
+        <div className="news-paper news-paper-final">
+          <div className="news-masthead">{CONFIG.newspaperName}</div>
+          <div className="news-rule" />
+          <div className="news-date">{CONFIG.newspaperDate}</div>
+          <div className="news-kicker">ULTIM'ORA</div>
+          <div className="news-headline-final">STASERA SI CENA A</div>
+          <div className="news-place">{CONFIG.restaurantName}</div>
+          <div className="news-standfirst">
+            Prenotazione confermata per due · al calar del sole
+          </div>
+          <button className="pixel-btn" style={{ marginTop: 18 }} onClick={onComplete}>
+            CONTINUA
+          </button>
         </div>
-        <button
-          className="pixel-btn"
-          onClick={() => {
-            setDialogueDone(true)
-            onComplete && onComplete()
-          }}
-          style={{ marginTop: 20 }}
-        >
-          CONTINUA
-        </button>
-      </div>
-    )
-  }
-
-  if (dialogueDone) {
-    return (
-      <div className="screen treasure-bg">
-        <div className="title-card">In attesa della prossima tappa...</div>
       </div>
     )
   }
 
   return (
-    <div className="screen treasure-screen">
-      <div className="treasure-clue">
-        {activeClue || 'Segui la costa verso nord...'}
-      </div>
-      <div
-        className="treasure-map"
-        ref={containerRef}
-        onPointerDown={onPointerDown}
-        onPointerMove={onPointerMove}
-        onPointerUp={onPointerUp}
-        onPointerLeave={onPointerUp}
-      >
-        <svg className="treasure-path-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
-          <polyline
-            points={PATH.map((p) => `${p.x},${p.y}`).join(' ')}
-            fill="none"
-            stroke="#5b4321"
-            strokeWidth="1"
-            strokeDasharray="3,3"
-          />
-        </svg>
+    <div className="news-screen">
+      <div className="news-paper">
+        <div className="news-masthead">{CONFIG.newspaperName}</div>
+        <div className="news-rule" />
+        <div className="news-date">{CONFIG.newspaperDate}</div>
 
-        {CHECKPOINTS.slice(0, reachedCheckpoint + 2).map((cp, i) =>
-          i <= reachedCheckpoint + 1 ? (
-            <div
-              key={i}
-              className={`treasure-checkpoint ${i <= reachedCheckpoint ? 'reached' : ''}`}
-              style={{ left: `${PATH[cp.atIndex].x}%`, top: `${PATH[cp.atIndex].y}%` }}
-            >
-              {cp.clue === 'TREASURE' ? <MapMark size={30} /> : <XMark size={26} />}
-            </div>
-          ) : null
-        )}
+        <div className="news-task">Componi il titolo di prima pagina</div>
 
-        <div
-          className="treasure-icon"
-          style={{ left: `${iconPos.x}%`, top: `${iconPos.y}%` }}
-        >
-          <Paw size={30} />
+        <div className={`news-slots ${filledWrong ? 'shake' : ''}`}>
+          {HEADLINE.map((_, i) => {
+            const tile = answer[i]
+            return (
+              <button
+                key={i}
+                className={`news-slot ${tile ? 'filled' : ''}`}
+                onClick={() => tile && removeAt(i)}
+              >
+                {tile ? tile.w : ''}
+              </button>
+            )
+          })}
         </div>
+
+        <div className="news-pool">
+          {pool.map((tile) => (
+            <button
+              key={tile.id}
+              className={`news-tile ${usedIds.has(tile.id) ? 'used' : ''}`}
+              onClick={() => place(tile)}
+              disabled={usedIds.has(tile.id)}
+            >
+              {tile.w}
+            </button>
+          ))}
+        </div>
+
+        {filledWrong && <div className="news-msg">Il titolo non torna... riprova ✍️</div>}
+
+        <button
+          className="pixel-btn news-publish"
+          disabled={!correct}
+          onClick={() => setPublished(true)}
+        >
+          MANDA IN STAMPA
+        </button>
       </div>
-      <div className="treasure-hint">TRASCINA L'ORMA LUNGO IL SENTIERO</div>
     </div>
   )
 }
