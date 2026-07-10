@@ -6,8 +6,11 @@ export const CONFIG = {
     time: '18:00',
     place: 'sotto casa tua',
   },
-  // Nome del ristorante rivelato allo Step 2 (mappa del tesoro).
-  restaurantName: 'Singita',
+  // >>> CAMBIA QUI quando saprai il posto: nome del ristorante rivelato allo Step 2 (prima pagina)
+  restaurantName: 'Il Posto Segreto',
+  // Testata del giornale nello Step 2 (puoi personalizzarla)
+  newspaperName: "L'ECO DEL TRAMONTO",
+  newspaperDate: 'Edizione speciale · 18 Luglio',
   sunsetSpot: 'Singita',
 }
 
