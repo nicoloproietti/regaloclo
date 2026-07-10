@@ -196,6 +196,7 @@ export default function Step1Runner({ onComplete }) {
         <DialogueBox
           lines={[
             { speaker: 'nico', text: 'Ora ripercorriamo il nostro percorso insieme.' },
+            { speaker: 'nico', text: "C'è qualche ostacolo, salta per evitarlo!" },
           ]}
           action={
             <button className="pixel-btn" onClick={() => setStarted(true)}>
