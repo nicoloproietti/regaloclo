@@ -1,5 +1,14 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { OBSTACLE_ICONS, RunnerChar, MapMark } from '../components/Icon.jsx'
+import DialogueBox from '../components/DialogueBox.jsx'
+import {
+  OBSTACLE_ICONS,
+  RunnerChar,
+  MapMark,
+  DiscoBall,
+  BigBen,
+  Bridge,
+  Trattoria,
+} from '../components/Icon.jsx'
 import './step1Runner.css'
 
 const CHAPTERS = [
@@ -37,12 +46,41 @@ const CHAPTERS = [
   },
 ]
 
+function Scenery({ chapterKey }) {
+  if (chapterKey === 'nurbar')
+    return (
+      <div className="scenery scenery-disco">
+        <DiscoBall size={120} />
+      </div>
+    )
+  if (chapterKey === 'londra')
+    return (
+      <div className="scenery scenery-bigben">
+        <BigBen size={120} />
+      </div>
+    )
+  if (chapterKey === 'pontemilvio')
+    return (
+      <div className="scenery scenery-bridge">
+        <Bridge size={340} />
+      </div>
+    )
+  if (chapterKey === 'pranzo')
+    return (
+      <div className="scenery scenery-trattoria">
+        <Trattoria size={140} />
+      </div>
+    )
+  return null
+}
+
 export default function Step1Runner({ onComplete }) {
+  const [started, setStarted] = useState(false)
   const [chapterIdx, setChapterIdx] = useState(0)
   const [showTitle, setShowTitle] = useState(true)
   const [obstacles, setObstacles] = useState([])
   const [jumping, setJumping] = useState(false)
-  const [bump, setBump] = useState(false)
+  const [push, setPush] = useState(false)
   const [finished, setFinished] = useState(false)
   const [cleared, setCleared] = useState(0)
 
@@ -50,17 +88,19 @@ export default function Step1Runner({ onComplete }) {
   const jumpTimerRef = useRef(null)
   const rafRef = useRef(null)
   const spawnTimerRef = useRef(null)
+  const lastBumpRef = useRef(null)
 
   const chapter = CHAPTERS[chapterIdx]
 
   useEffect(() => {
+    if (!started) return
     setShowTitle(true)
     setObstacles([])
     setCleared(0)
     spawnedRef.current = 0
-    const t = setTimeout(() => setShowTitle(false), 1000)
+    const t = setTimeout(() => setShowTitle(false), 1200)
     return () => clearTimeout(t)
-  }, [chapterIdx])
+  }, [chapterIdx, started])
 
   const spawnObstacle = useCallback(() => {
     if (spawnedRef.current >= chapter.count) return
@@ -70,13 +110,13 @@ export default function Step1Runner({ onComplete }) {
   }, [chapter])
 
   useEffect(() => {
-    if (showTitle || finished) return
+    if (!started || showTitle || finished) return
     spawnTimerRef.current = setInterval(spawnObstacle, 1900)
     return () => clearInterval(spawnTimerRef.current)
-  }, [showTitle, finished, spawnObstacle])
+  }, [started, showTitle, finished, spawnObstacle])
 
   useEffect(() => {
-    if (showTitle || finished) return
+    if (!started || showTitle || finished) return
     let last = performance.now()
 
     function tick(now) {
@@ -107,10 +147,10 @@ export default function Step1Runner({ onComplete }) {
 
     rafRef.current = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(rafRef.current)
-  }, [showTitle, finished, chapter, chapterIdx])
+  }, [started, showTitle, finished, chapter, chapterIdx])
 
   function handleTap() {
-    if (finished) return
+    if (finished || !started) return
     if (!jumping) {
       setJumping(true)
       clearTimeout(jumpTimerRef.current)
@@ -118,16 +158,35 @@ export default function Step1Runner({ onComplete }) {
     }
   }
 
-  // collisione morbida: piccolo "rimbalzo" visivo, nessuna penalità
+  // collisione: se non salta e tocca un ostacolo, viene spinta indietro
   useEffect(() => {
     if (jumping) return
     const near = obstacles.find((o) => o.x < 22 && o.x > 12)
-    if (near) {
-      setBump(true)
-      const t = setTimeout(() => setBump(false), 200)
+    if (near && lastBumpRef.current !== near.id) {
+      lastBumpRef.current = near.id
+      setPush(true)
+      const t = setTimeout(() => setPush(false), 460)
       return () => clearTimeout(t)
     }
   }, [obstacles, jumping])
+
+  // --- Dialogo iniziale (dopo INIZIA) ---
+  if (!started) {
+    return (
+      <div className="screen" style={{ background: CHAPTERS[0].bg }}>
+        <DialogueBox
+          lines={[
+            { speaker: 'nico', text: 'Ora ripercorriamo il nostro percorso insieme.' },
+          ]}
+          action={
+            <button className="pixel-btn" onClick={() => setStarted(true)}>
+              VIA!
+            </button>
+          }
+        />
+      </div>
+    )
+  }
 
   if (finished) {
     return (
@@ -149,8 +208,12 @@ export default function Step1Runner({ onComplete }) {
 
   return (
     <div className="runner-screen" style={{ background: chapter.bg }} onClick={handleTap}>
+      <div className="runner-location">{chapter.title}</div>
       {showTitle && <div className="runner-title-card">{chapter.title}</div>}
+
       <div className="runner-track">
+        <Scenery chapterKey={chapter.key} />
+
         {obstacles.map((o) => {
           const Obstacle = OBSTACLE_ICONS[o.kind]
           return (
@@ -159,11 +222,13 @@ export default function Step1Runner({ onComplete }) {
             </div>
           )
         })}
-        <div className={`runner-player ${jumping ? 'jump' : ''} ${bump ? 'bump' : ''}`}>
+
+        <div className={`runner-player ${jumping ? 'jump' : ''} ${push ? 'push' : ''}`}>
           <RunnerChar size={70} />
         </div>
         <div className="runner-ground" />
       </div>
+
       <div className="runner-hint">TAP PER SALTARE</div>
     </div>
   )
