@@ -50,19 +50,19 @@ function Scenery({ chapterKey }) {
   if (chapterKey === 'nurbar')
     return (
       <div className="scenery scenery-disco">
-        <DiscoBall size={120} />
+        <DiscoBall size={116} />
       </div>
     )
   if (chapterKey === 'londra')
     return (
       <div className="scenery scenery-bigben">
-        <BigBen size={120} />
+        <BigBen size={116} />
       </div>
     )
   if (chapterKey === 'pontemilvio')
     return (
       <div className="scenery scenery-bridge">
-        <Bridge size={340} />
+        <Bridge size={320} />
       </div>
     )
   if (chapterKey === 'pranzo')
@@ -82,15 +82,24 @@ export default function Step1Runner({ onComplete }) {
   const [jumping, setJumping] = useState(false)
   const [push, setPush] = useState(false)
   const [finished, setFinished] = useState(false)
+  const [reveal, setReveal] = useState(false) // card appuntamento
   const [cleared, setCleared] = useState(0)
 
   const spawnedRef = useRef(0)
   const jumpTimerRef = useRef(null)
+  const jumpingRef = useRef(false)
   const rafRef = useRef(null)
   const spawnTimerRef = useRef(null)
   const lastBumpRef = useRef(null)
 
   const chapter = CHAPTERS[chapterIdx]
+
+  // pulizia timer allo smontaggio
+  useEffect(() => () => {
+    clearTimeout(jumpTimerRef.current)
+    clearInterval(spawnTimerRef.current)
+    cancelAnimationFrame(rafRef.current)
+  }, [])
 
   useEffect(() => {
     if (!started) return
@@ -135,6 +144,7 @@ export default function Step1Runner({ onComplete }) {
                 setChapterIdx((i) => i + 1)
               } else {
                 setFinished(true)
+                setReveal(true)
               }
             }
             return total
@@ -149,13 +159,16 @@ export default function Step1Runner({ onComplete }) {
     return () => cancelAnimationFrame(rafRef.current)
   }, [started, showTitle, finished, chapter, chapterIdx])
 
-  function handleTap() {
-    if (finished || !started) return
-    if (!jumping) {
-      setJumping(true)
-      clearTimeout(jumpTimerRef.current)
-      jumpTimerRef.current = setTimeout(() => setJumping(false), 520)
-    }
+  function doJump() {
+    if (finished || !started || showTitle) return
+    if (jumpingRef.current) return
+    jumpingRef.current = true
+    setJumping(true)
+    clearTimeout(jumpTimerRef.current)
+    jumpTimerRef.current = setTimeout(() => {
+      jumpingRef.current = false
+      setJumping(false)
+    }, 560)
   }
 
   // collisione: se non salta e tocca un ostacolo, viene spinta indietro
@@ -188,26 +201,44 @@ export default function Step1Runner({ onComplete }) {
     )
   }
 
+  // --- Card appuntamento + dialogo di congratulazioni prima di sbloccare la lettera ---
   if (finished) {
-    return (
-      <div className="screen" style={{ background: CHAPTERS[CHAPTERS.length - 1].bg }}>
-        <div className="title-card">
-          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 10 }}>
-            <MapMark size={44} />
-          </div>
-          Sabato 18, ore 18{'\n'}ti aspetto sotto casa tua
-          <div style={{ marginTop: 16 }}>
-            <button className="pixel-btn" onClick={onComplete}>
-              CONTINUA
-            </button>
+    if (reveal) {
+      return (
+        <div className="screen" style={{ background: CHAPTERS[CHAPTERS.length - 1].bg }}>
+          <div className="title-card">
+            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 10 }}>
+              <MapMark size={44} />
+            </div>
+            Sabato 18, ore 18{'\n'}ti aspetto sotto casa tua
+            <div style={{ marginTop: 16 }}>
+              <button className="pixel-btn" onClick={() => setReveal(false)}>
+                CONTINUA
+              </button>
+            </div>
           </div>
         </div>
+      )
+    }
+    return (
+      <div className="screen" style={{ background: CHAPTERS[CHAPTERS.length - 1].bg }}>
+        <DialogueBox
+          lines={[
+            { speaker: 'nico', text: 'Complimenti! Hai sbloccato una lettera. 🎉' },
+            { speaker: 'nico', text: 'Continua a giocare per sbloccarne altre!' },
+          ]}
+          action={
+            <button className="pixel-btn" onClick={onComplete}>
+              OK
+            </button>
+          }
+        />
       </div>
     )
   }
 
   return (
-    <div className="runner-screen" style={{ background: chapter.bg }} onClick={handleTap}>
+    <div className="runner-screen" style={{ background: chapter.bg }}>
       <div className="runner-location">{chapter.title}</div>
       {showTitle && <div className="runner-title-card">{chapter.title}</div>}
 
@@ -229,7 +260,9 @@ export default function Step1Runner({ onComplete }) {
         <div className="runner-ground" />
       </div>
 
-      <div className="runner-hint">TAP PER SALTARE</div>
+      <button className="runner-jump-btn" onClick={doJump}>
+        SALTA
+      </button>
     </div>
   )
 }

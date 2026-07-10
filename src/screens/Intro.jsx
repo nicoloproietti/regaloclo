@@ -3,7 +3,6 @@ import DialogueBox from '../components/DialogueBox.jsx'
 const LINES = [
   { speaker: 'nico', text: 'Ciao Claudia.' },
   { speaker: 'nico', text: 'Buon compleanno. 🎂' },
-  { speaker: 'nico', text: 'Questo è il tuo regalo di compleanno.' },
   { speaker: 'nico', text: 'Questo è il tuo regalo di compleanno.', claudiaVisible: true, reaction: '?' },
   { speaker: 'nico', text: 'Lo so, non è quello che ti aspettavi.' },
   { speaker: 'nico', text: 'Ma non volevo farti un regalo scontato.', claudiaVisible: true },

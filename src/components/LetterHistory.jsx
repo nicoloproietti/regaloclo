@@ -4,9 +4,9 @@ import './letterHistory.css'
 
 // Posizioni sparse fisse (non in ordine "TI AMO") dentro il pannello.
 const LAYOUT = {
-  I: { top: '20%', left: '64%', caption: 'raccolta a mezzanotte' },
-  A: { top: '58%', left: '24%', caption: 'raccolta durante il viaggio' },
-  M: { top: '32%', left: '40%', caption: 'raccolta a cena' },
+  I: { top: '22%', left: '68%', caption: 'raccolta a mezzanotte' },
+  A: { top: '66%', left: '30%', caption: 'raccolta durante il viaggio' },
+  M: { top: '40%', left: '48%', caption: 'raccolta a cena' },
 }
 
 export default function LetterHistory({ letters }) {
