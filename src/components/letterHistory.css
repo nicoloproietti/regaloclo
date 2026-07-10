@@ -1,23 +1,26 @@
 .letter-history-toggle {
   position: fixed;
-  top: 14px;
-  right: 14px;
+  top: 16px;
+  right: 16px;
   z-index: 20;
-  background: var(--gb-dark);
-  color: var(--gb-pale);
-  border: 3px solid var(--gb-pale);
-  width: 40px;
-  height: 40px;
-  font-size: 16px;
+  background: linear-gradient(180deg, #fff, var(--cream));
+  color: var(--purple);
+  border: 4px solid #fff;
+  border-radius: 50%;
+  width: 52px;
+  height: 52px;
+  font-size: 22px;
   display: flex;
   align-items: center;
   justify-content: center;
+  box-shadow: 0 6px 0 rgba(20, 20, 40, 0.18), 0 10px 16px var(--shadow);
 }
 
 .letter-history-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(6, 16, 6, 0.92);
+  background: rgba(43, 33, 64, 0.55);
+  backdrop-filter: blur(2px);
   z-index: 30;
   display: flex;
   align-items: center;
@@ -29,18 +32,23 @@
   position: relative;
   width: 100%;
   max-width: 420px;
-  height: 340px;
-  background: var(--gb-dark);
-  border: 4px solid var(--gb-pale);
+  height: 360px;
+  background: var(--cream);
+  border-radius: 30px;
+  border: 6px solid #fff;
+  box-shadow: 0 16px 0 rgba(20, 20, 40, 0.18), 0 24px 34px var(--shadow);
   overflow: hidden;
 }
 
 .letter-history-title {
   position: absolute;
-  top: 10px;
-  left: 12px;
-  font-size: 10px;
-  color: var(--gb-light);
+  top: 16px;
+  left: 20px;
+  font-family: 'Baloo 2', sans-serif;
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--purple-dark);
+  letter-spacing: 0.5px;
 }
 
 .letter-history-grid {
@@ -55,48 +63,52 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 60px;
+  width: 70px;
 }
 
 .letter-glyph {
-  width: 44px;
-  height: 44px;
+  width: 52px;
+  height: 52px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 18px;
-  border: 3px solid var(--gb-pale);
-  background: rgba(139, 172, 15, 0.08);
+  font-family: 'Baloo 2', sans-serif;
+  font-size: 22px;
+  font-weight: 800;
+  border-radius: 50%;
+  border: 4px solid #fff;
+  box-shadow: 0 5px 0 rgba(20, 20, 40, 0.15), 0 8px 14px var(--shadow);
 }
 
 .letter-hidden .letter-glyph {
-  color: var(--gb-mid);
-  border-color: var(--gb-mid);
+  color: #b9aee0;
+  background: #ece6ff;
 }
 
 .letter-teaser .letter-glyph {
-  color: var(--gb-mid);
-  background: var(--gb-mid);
+  color: #fff;
+  background: linear-gradient(180deg, var(--purple), var(--purple-dark));
 }
 
 .letter-full .letter-glyph {
-  color: var(--gb-dark);
-  background: var(--gb-light);
+  color: #6b3a00;
+  background: linear-gradient(180deg, var(--sun), #ff9f43);
 }
 
 .letter-caption {
-  font-size: 6px;
+  font-size: 10px;
+  font-weight: 700;
   margin-top: 6px;
   text-align: center;
-  color: var(--gb-light);
+  color: var(--purple-dark);
   line-height: 1.4;
 }
 
 .letter-history-close {
   position: absolute;
-  bottom: 12px;
+  bottom: 14px;
   left: 50%;
   transform: translateX(-50%);
-  font-size: 9px;
-  padding: 8px 14px;
+  font-size: 13px;
+  padding: 10px 20px;
 }

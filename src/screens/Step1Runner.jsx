@@ -5,7 +5,7 @@ const CHAPTERS = [
   {
     key: 'pranzo',
     title: 'PRANZO DI MAGGETTO',
-    bg: 'linear-gradient(180deg, #d98a3d, #7a4a1e)',
+    bg: 'linear-gradient(180deg, #ffd97a, #ff9f43)',
     obstacles: ['🍴', '🍽️', '🍝', '🍷'],
     count: 5,
     speed: 2.6,
@@ -13,7 +13,7 @@ const CHAPTERS = [
   {
     key: 'nurbar',
     title: 'NUR BAR',
-    bg: 'linear-gradient(180deg, #7a1e6b, #2a0a33)',
+    bg: 'linear-gradient(180deg, #c77dff, #7b5cff)',
     obstacles: ['🥂', '🔊', '💡'],
     count: 6,
     speed: 3,
@@ -21,7 +21,7 @@ const CHAPTERS = [
   {
     key: 'pontemilvio',
     title: 'PONTE MILVIO',
-    bg: 'linear-gradient(180deg, #e2823f, #8a3d2a)',
+    bg: 'linear-gradient(180deg, #ffb26b, #ff6f5e)',
     obstacles: ['🔒', '🚲', '🪑'],
     count: 6,
     speed: 3.3,
@@ -29,7 +29,7 @@ const CHAPTERS = [
   {
     key: 'londra',
     title: 'LONDRA',
-    bg: 'linear-gradient(180deg, #4a5568, #1a202c)',
+    bg: 'linear-gradient(180deg, #6ec6ff, #2f8fe0)',
     obstacles: ['🧳', '☂️', '📞'],
     count: 7,
     speed: 3.6,
