@@ -24,106 +24,136 @@ function Svg({ children, size = 40, vb = 100 }) {
 // ---- Ostacoli: PRANZO ----
 const Fork = (p) => (
   <Svg {...p}>
-    <path d="M42 20v22c0 6 8 6 8 0V20" fill="#e7e9ef" />
-    <path d="M46 42v40" stroke={INK} />
-    <path d="M42 20v14M50 20v14" />
+    <path d="M40 22v16M50 22v16M60 22v16" stroke="#c9ccd6" strokeWidth="5" />
+    <path d="M40 38h20v6c0 4-2 6-6 7l-1 27h-6l-1-27c-4-1-6-3-6-7z" fill="#e7e9ef" />
   </Svg>
 )
 const Plate = (p) => (
   <Svg {...p}>
-    <ellipse cx="50" cy="60" rx="34" ry="14" fill="#f2f4fa" />
-    <ellipse cx="50" cy="56" rx="20" ry="8" fill="#dfe3ee" />
+    <ellipse cx="50" cy="62" rx="36" ry="15" fill="#f2f4fa" />
+    <ellipse cx="50" cy="58" rx="22" ry="9" fill="#dfe3ee" />
+    <path d="M40 55l6-6 5 5 5-6" stroke="#c1c6d4" strokeWidth="4" />
   </Svg>
 )
 const Pasta = (p) => (
   <Svg {...p}>
-    <path d="M22 56h56l-6 22a10 10 0 01-10 8H38a10 10 0 01-10-8z" fill="#ffcf6b" />
-    <path d="M34 50c4-8 12-8 16 0M50 48c4-8 12-8 16 2" stroke="#e88b2f" />
+    <path d="M20 54c8-8 52-8 60 0-2 18-10 30-30 30S22 72 20 54z" fill="#e88b2f" />
+    <path d="M24 54h52" stroke="#fff2d6" strokeWidth="5" />
+    <path d="M34 48c4-9 12-9 16-1M50 46c4-9 13-8 16 2" stroke="#ffcf6b" strokeWidth="5" />
   </Svg>
 )
 const Wine = (p) => (
   <Svg {...p}>
-    <path d="M44 18h12v22c0 8-12 8-12 0z" fill="#8f2f4a" />
-    <path d="M46 40v40h8V40" fill="#7a2740" />
+    <path d="M45 16h10v6l3 8c1 4 1 10 1 16v30a4 4 0 01-4 4h-10a4 4 0 01-4-4V46c0-6 0-12 1-16l3-8z" fill="#8f2f4a" />
+    <rect x="42" y="44" width="16" height="18" rx="2" fill="#f2e2c0" stroke="none" />
   </Svg>
 )
 
 // ---- Ostacoli: NUR BAR ----
 const Cocktail = (p) => (
   <Svg {...p}>
-    <path d="M28 30h44L50 58z" fill="#ff8fb0" />
-    <path d="M50 58v22M36 82h28" />
+    <path d="M26 28h48L52 56z" fill="#ff8fb0" />
+    <path d="M30 32h40" stroke="#ffd0df" strokeWidth="5" />
+    <path d="M52 56v22M38 82h28" strokeWidth="5" />
+    <circle cx="70" cy="24" r="5" fill="#ff5e7a" />
   </Svg>
 )
 const Speaker = (p) => (
   <Svg {...p}>
-    <rect x="30" y="22" width="40" height="56" rx="8" fill="#4a3f6b" />
-    <circle cx="50" cy="40" r="7" fill="#c7bdf0" />
-    <circle cx="50" cy="62" r="11" fill="#c7bdf0" />
+    <rect x="28" y="18" width="44" height="64" rx="10" fill="#5a4d86" />
+    <circle cx="50" cy="36" r="8" fill="#cfc4f5" />
+    <circle cx="50" cy="60" r="13" fill="#8f7fd4" />
+    <circle cx="50" cy="60" r="5" fill="#3b3160" />
   </Svg>
 )
 const Bulb = (p) => (
   <Svg {...p}>
-    <circle cx="50" cy="44" r="22" fill="#ffe27a" />
-    <path d="M40 66h20M42 76h16" />
+    <circle cx="50" cy="42" r="22" fill="#ffe27a" />
+    <path d="M40 40l8 8 12-14" stroke="#f4b83a" strokeWidth="5" />
+    <rect x="42" y="62" width="16" height="14" rx="3" fill="#c9ccd6" />
   </Svg>
 )
 
 // ---- Ostacoli: PONTE MILVIO ----
 const Lock = (p) => (
   <Svg {...p}>
-    <path d="M38 46V36a12 12 0 0124 0v10" />
-    <rect x="30" y="46" width="40" height="34" rx="8" fill="#ffd15c" />
-    <circle cx="50" cy="62" r="5" fill={INK} />
+    <path d="M37 48V38a13 13 0 0126 0v10" strokeWidth="7" />
+    <rect x="28" y="46" width="44" height="36" rx="9" fill="#ffd15c" />
+    <circle cx="50" cy="62" r="5" fill={INK} stroke="none" />
+    <path d="M50 66v6" strokeWidth="5" />
   </Svg>
 )
 const Bike = (p) => (
   <Svg {...p}>
-    <circle cx="32" cy="64" r="16" fill="#bfe6ff" />
-    <circle cx="70" cy="64" r="16" fill="#bfe6ff" />
-    <path d="M32 64l14-24 24 24M46 40h14" stroke="#ff6f5e" />
+    <circle cx="30" cy="66" r="16" fill="#eaf6ff" />
+    <circle cx="70" cy="66" r="16" fill="#eaf6ff" />
+    <circle cx="30" cy="66" r="4" fill={INK} stroke="none" />
+    <circle cx="70" cy="66" r="4" fill={INK} stroke="none" />
+    <path d="M30 66l16-24 24 24M46 42l-8 24M46 42h16" stroke="#ff6f5e" strokeWidth="5" />
   </Svg>
 )
 const Bench = (p) => (
   <Svg {...p}>
-    <rect x="24" y="46" width="52" height="12" rx="4" fill="#9a6a3c" />
-    <path d="M30 58v22M70 58v22" />
+    <rect x="22" y="44" width="56" height="9" rx="4" fill="#b07a44" />
+    <rect x="22" y="56" width="56" height="9" rx="4" fill="#9a6a3c" />
+    <path d="M30 65v15M70 65v15" strokeWidth="6" />
   </Svg>
 )
 
 // ---- Ostacoli: LONDRA ----
 const Suitcase = (p) => (
   <Svg {...p}>
-    <path d="M40 30h20v8" />
-    <rect x="26" y="38" width="48" height="42" rx="6" fill="#c14a3d" />
-    <path d="M50 38v42" stroke="#8f3128" />
+    <path d="M42 30h16v8" strokeWidth="6" />
+    <rect x="24" y="38" width="52" height="44" rx="8" fill="#c14a3d" />
+    <rect x="24" y="52" width="52" height="7" fill="#8f3128" stroke="none" />
+    <rect x="44" y="34" width="12" height="10" rx="3" fill="#8f3128" />
   </Svg>
 )
 const Umbrella = (p) => (
   <Svg {...p}>
-    <path d="M22 52a28 28 0 0156 0z" fill="#ff6f5e" />
-    <path d="M50 52v26a8 8 0 01-14 4" />
+    <path d="M20 54a30 26 0 0160 0z" fill="#ff6f5e" />
+    <path d="M20 54q10-8 20 0 10-8 20 0 10-8 20 0" stroke="#c94a3c" strokeWidth="4" />
+    <path d="M50 54v24a9 9 0 01-15 5" strokeWidth="5" />
   </Svg>
 )
 const Phone = (p) => (
   <Svg {...p}>
-    <rect x="34" y="22" width="32" height="58" rx="6" fill="#d33c3c" />
-    <rect x="40" y="30" width="20" height="26" rx="3" fill="#ffd7d7" />
+    <rect x="32" y="18" width="36" height="64" rx="7" fill="#d33c3c" />
+    <rect x="38" y="26" width="24" height="30" rx="3" fill="#ffe1e1" />
+    <path d="M38 62h24" strokeWidth="4" />
   </Svg>
 )
 
-// ---- Runner ----
-export function RunnerChar({ size = 52 }) {
+// ---- Runner: Claudia, ragazza bionda con vestito blu (vista di lato) ----
+export function RunnerChar({ size = 64 }) {
   return (
-    <svg width={size} height={size * 1.1} viewBox="0 0 100 110" fill="none"
-      stroke={INK} strokeWidth="6" strokeLinecap="round" strokeLinejoin="round"
+    <svg width={size} height={size * 1.2} viewBox="0 0 120 130" fill="none"
+      stroke={INK} strokeWidth="5" strokeLinecap="round" strokeLinejoin="round"
       xmlns="http://www.w3.org/2000/svg">
-      <circle cx="52" cy="24" r="16" fill="#f4c893" />
-      <path d="M40 16a14 12 0 0124 0z" fill="#3d2b1f" />
-      <circle cx="58" cy="24" r="3" fill={INK} stroke="none" />
-      <path d="M52 40c14 0 20 10 20 22l-6 6" fill="#4a90ff" />
-      <path d="M52 40c-6 2-10 8-10 16l-2 10" fill="#4a90ff" />
-      <path d="M52 62l14 6M52 62l-8 14" className="runner-legs" />
+      {/* coda di cavallo che svolazza dietro */}
+      <path d="M50 26c-16-6-30 0-36 10 8-2 12 0 14 4-8 2-12 8-12 16 8-6 14-6 18-4"
+        fill="#f6cf5e" />
+      {/* gambe in corsa */}
+      <g className="runner-legs">
+        <path d="M62 84l10 20" stroke={INK} strokeWidth="9" />
+        <path d="M62 84l-4 22" stroke={INK} strokeWidth="9" />
+      </g>
+      {/* scarpe */}
+      <path d="M70 104l10 3M56 106l-10 2" stroke="#e05a7a" strokeWidth="8" />
+      {/* vestito blu */}
+      <path d="M58 44c12 0 20 8 22 20l4 22-40 0 4-24c2-10 6-16 10-18z" fill="#4a90ff" />
+      {/* braccia */}
+      <path d="M62 54l18 6" stroke="#f4c79a" strokeWidth="8" />
+      <path d="M60 54l-14 12" stroke="#f4c79a" strokeWidth="8" />
+      {/* testa */}
+      <circle cx="64" cy="28" r="17" fill="#ffe0b3" />
+      {/* frangia bionda */}
+      <path d="M48 26c0-12 10-18 20-16 8 1 12 6 12 12-6-4-10-4-14-2-3-6-12-4-18 6z"
+        fill="#f6cf5e" />
+      {/* occhio + guancia + sorriso */}
+      <circle cx="72" cy="28" r="3" fill={INK} stroke="none" />
+      <circle cx="78" cy="34" r="4" fill="rgba(255,120,140,0.5)" stroke="none" />
+      <path d="M74 38q5 2 8-1" stroke={INK} strokeWidth="3.5" />
     </svg>
   )
 }

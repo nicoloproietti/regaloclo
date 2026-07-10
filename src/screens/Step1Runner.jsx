@@ -9,7 +9,7 @@ const CHAPTERS = [
     bg: 'linear-gradient(180deg, #ffd97a, #ff9f43)',
     obstacles: ['fork', 'plate', 'pasta', 'wine'],
     count: 5,
-    speed: 2.6,
+    speed: 1.7,
   },
   {
     key: 'nurbar',
@@ -17,7 +17,7 @@ const CHAPTERS = [
     bg: 'linear-gradient(180deg, #c77dff, #7b5cff)',
     obstacles: ['cocktail', 'speaker', 'bulb'],
     count: 6,
-    speed: 3,
+    speed: 1.9,
   },
   {
     key: 'pontemilvio',
@@ -25,7 +25,7 @@ const CHAPTERS = [
     bg: 'linear-gradient(180deg, #ffb26b, #ff6f5e)',
     obstacles: ['lock', 'bike', 'bench'],
     count: 6,
-    speed: 3.3,
+    speed: 2.1,
   },
   {
     key: 'londra',
@@ -33,7 +33,7 @@ const CHAPTERS = [
     bg: 'linear-gradient(180deg, #6ec6ff, #2f8fe0)',
     obstacles: ['suitcase', 'umbrella', 'phone'],
     count: 7,
-    speed: 3.6,
+    speed: 2.3,
   },
 ]
 
@@ -71,7 +71,7 @@ export default function Step1Runner({ onComplete }) {
 
   useEffect(() => {
     if (showTitle || finished) return
-    spawnTimerRef.current = setInterval(spawnObstacle, 1100)
+    spawnTimerRef.current = setInterval(spawnObstacle, 1900)
     return () => clearInterval(spawnTimerRef.current)
   }, [showTitle, finished, spawnObstacle])
 
@@ -84,7 +84,7 @@ export default function Step1Runner({ onComplete }) {
       last = now
       setObstacles((prev) => {
         const next = prev
-          .map((o) => ({ ...o, x: o.x - chapter.speed * dt * 22 }))
+          .map((o) => ({ ...o, x: o.x - chapter.speed * dt * 14 }))
           .filter((o) => o.x > -10)
         const passed = prev.length - next.length
         if (passed > 0) {
@@ -155,12 +155,12 @@ export default function Step1Runner({ onComplete }) {
           const Obstacle = OBSTACLE_ICONS[o.kind]
           return (
             <div key={o.id} className="runner-obstacle" style={{ left: `${o.x}%` }}>
-              <Obstacle size={40} />
+              <Obstacle size={58} />
             </div>
           )
         })}
         <div className={`runner-player ${jumping ? 'jump' : ''} ${bump ? 'bump' : ''}`}>
-          <RunnerChar size={54} />
+          <RunnerChar size={70} />
         </div>
         <div className="runner-ground" />
       </div>
