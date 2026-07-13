@@ -1,36 +1,18 @@
-import { useState } from 'react'
 import DialogueBox from '../components/DialogueBox.jsx'
 
 const LINES = [
-  { speaker: 'nico', text: 'Ci siamo quasi.' },
-  { speaker: 'nico', text: 'Guarda cosa hai raccolto stasera.' },
-  { speaker: 'nico', text: 'Tre lettere. Tre momenti.' },
-  { speaker: 'nico', text: 'Scrivile nella sabbia.\nCome vuoi tu, dove vuoi tu.' },
-  { speaker: 'nico', text: 'Ma non è finita.' },
-  { speaker: 'nico', text: 'Mancano ancora due lettere...' },
-  { speaker: 'nico', text: 'e quelle non te le do io da qui.', claudiaVisible: true, reaction: '?' },
-  { speaker: 'nico', text: 'Guardati intorno.' },
+  { speaker: 'nico', text: 'Ci siamo.' },
+  { speaker: 'nico', text: 'La serata è stata solo l’inizio.' },
+  { speaker: 'nico', text: 'L’ultima sorpresa non è qui dentro...' },
+  { speaker: 'nico', text: 'è là fuori, dove la notte incontra il mare.', claudiaVisible: true, reaction: '?' },
+  { speaker: 'nico', text: 'Alza gli occhi dallo schermo...' },
+  { speaker: 'nico', text: 'e guardati intorno. 🌙' },
 ]
 
 export default function Step4Finale({ onDone }) {
-  const [dialogueDone, setDialogueDone] = useState(false)
-
-  if (!dialogueDone) {
-    return (
-      <div className="screen">
-        <DialogueBox lines={LINES} onDone={() => { setDialogueDone(true); onDone && onDone() }} />
-      </div>
-    )
-  }
-
   return (
-    <div className="screen">
-      <div className="title-card">
-        I · A · M
-        <div style={{ fontSize: 8, marginTop: 12, lineHeight: 1.6 }}>
-          Il resto, stanotte, sulla sabbia.
-        </div>
-      </div>
+    <div className="screen riddle-solved-bg">
+      <DialogueBox lines={LINES} onDone={() => onDone && onDone()} />
     </div>
   )
 }
