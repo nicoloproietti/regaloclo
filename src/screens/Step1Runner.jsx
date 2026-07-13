@@ -79,7 +79,7 @@ function Scenery({ chapterKey }) {
   return null
 }
 
-export default function Step1Runner({ onComplete, onWin }) {
+export default function Step1Runner({ onComplete }) {
   const [started, setStarted] = useState(false)
   const [chapterIdx, setChapterIdx] = useState(0)
   const [showTitle, setShowTitle] = useState(true)
@@ -88,7 +88,6 @@ export default function Step1Runner({ onComplete, onWin }) {
   const [push, setPush] = useState(false)
   const [finished, setFinished] = useState(false)
   const [cleared, setCleared] = useState(0)
-  const wonRef = useRef(false)
 
   const spawnedRef = useRef(0)
   const jumpTimerRef = useRef(null)
@@ -164,15 +163,6 @@ export default function Step1Runner({ onComplete, onWin }) {
     rafRef.current = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(rafRef.current)
   }, [started, showTitle, finished, chapter, chapterIdx])
-
-  // alla fine della corsa: sblocca subito la lettera (parte l'animazione),
-  // poi mostra il messaggio di fine livello
-  useEffect(() => {
-    if (finished && !wonRef.current) {
-      wonRef.current = true
-      onWin && onWin()
-    }
-  }, [finished, onWin])
 
   function doJump() {
     if (finished || !started || showTitle) return

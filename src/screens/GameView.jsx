@@ -1,8 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
-import { AnimatePresence } from 'framer-motion'
 import { useGameState } from '../hooks/useGameState.js'
-import LetterHistory from '../components/LetterHistory.jsx'
-import LetterUnlockOverlay from '../components/LetterUnlockOverlay.jsx'
 import Intro from './Intro.jsx'
 import Step1Runner from './Step1Runner.jsx'
 import Step1_5Crossword from './Step1_5Crossword.jsx'
@@ -21,135 +17,63 @@ function Waiting({ text }) {
 
 export default function GameView() {
   const { state, loading, setStep, updateState } = useGameState()
-  const [activeUnlock, setActiveUnlock] = useState(null)
-  const prevLettersRef = useRef(null)
 
-  const letters = state.letters_unlocked || {}
+  if (loading) return <Waiting text="Caricamento..." />
 
-  // Rileva quando una lettera viene sbloccata/aggiornata → mostra animazione.
-  useEffect(() => {
-    if (loading) return
-    const prev = prevLettersRef.current
-    // primo giro dopo il caricamento: memorizza senza animare
-    if (prev === null) {
-      prevLettersRef.current = { ...letters }
-      return
-    }
-    for (const key of Object.keys(letters)) {
-      const status = letters[key]
-      if ((status === 'full' || status === 'teaser') && prev[key] !== status) {
-        setActiveUnlock({ letter: key, status })
-        break
-      }
-    }
-    prevLettersRef.current = { ...letters }
-  }, [loading, JSON.stringify(letters)])
+  const { current_step } = state
+  const progress = state.step1_progress || {}
 
-  let content = null
+  const setDone = (flag) =>
+    updateState({ step1_progress: { ...progress, [flag]: true } })
 
-  if (loading) {
-    content = <Waiting text="Caricamento..." />
-  } else {
-    const { current_step, step1_progress } = state
-    switch (current_step) {
-      case 'intro':
-        content = <Intro onStart={() => setStep('step1')} />
-        break
+  switch (current_step) {
+    case 'intro':
+      return <Intro onStart={() => setStep('step1')} />
 
-      case 'step1':
-        content = step1_progress?.step1_done ? (
-          <Waiting text={`In attesa...\n${CONFIG.meetup.date}, ore ${CONFIG.meetup.time}`} />
-        ) : (
-          <Step1Runner
-            onWin={() => updateState({ letters_unlocked: { ...letters, I: 'full' } })}
-            onComplete={() =>
-              updateState({ step1_progress: { ...step1_progress, step1_done: true } })
-            }
-          />
-        )
-        break
+    case 'step1':
+      return progress.step1_done ? (
+        <Waiting text={`In attesa...\n${CONFIG.meetup.date}, ore ${CONFIG.meetup.time}`} />
+      ) : (
+        <Step1Runner onComplete={() => setDone('step1_done')} />
+      )
 
-      case 'step1_5':
-        content = step1_progress?.step1_5_done ? (
-          <Waiting text="In attesa del prossimo indizio..." />
-        ) : (
-          <Step1_5Crossword
-            onComplete={() =>
-              updateState({
-                letters_unlocked: { ...letters, A: 'teaser' },
-                step1_progress: { ...step1_progress, step1_5_done: true },
-              })
-            }
-          />
-        )
-        break
+    case 'step1_5':
+      return progress.step1_5_done ? (
+        <Waiting text="In attesa del prossimo indizio..." />
+      ) : (
+        <Step1_5Crossword onComplete={() => setDone('step1_5_done')} />
+      )
 
-      case 'step2':
-        content = step1_progress?.step2_done ? (
-          <Waiting text="In attesa della prossima tappa..." />
-        ) : (
-          <Step2TreasureMap
-            onComplete={() =>
-              updateState({
-                letters_unlocked: { ...letters, A: 'full' },
-                step1_progress: { ...step1_progress, step2_done: true },
-              })
-            }
-          />
-        )
-        break
+    case 'step2':
+      return progress.step2_done ? (
+        <Waiting text="In attesa della prossima tappa..." />
+      ) : (
+        <Step2TreasureMap onComplete={() => setDone('step2_done')} />
+      )
 
-      case 'step3':
-        content = step1_progress?.step3_done ? (
-          <Waiting text="In attesa..." />
-        ) : (
-          <Step3Riddle
-            onSolved={() =>
-              updateState({
-                letters_unlocked: { ...letters, M: 'full' },
-                step1_progress: { ...step1_progress, step3_done: true },
-              })
-            }
-          />
-        )
-        break
+    case 'step3':
+      return progress.step3_done ? (
+        <Waiting text="In attesa..." />
+      ) : (
+        <Step3Riddle onSolved={() => setDone('step3_done')} />
+      )
 
-      case 'step4':
-        content = <Step4Finale onDone={() => setStep('completed')} />
-        break
+    case 'step4':
+      return <Step4Finale onDone={() => setStep('completed')} />
 
-      case 'completed':
-        content = (
-          <div className="screen">
-            <div className="title-card">
-              I · A · M
-              <div style={{ fontSize: 12, marginTop: 12, lineHeight: 1.6, fontWeight: 700 }}>
-                Il resto, stanotte, sulla sabbia.
-              </div>
+    case 'completed':
+      return (
+        <div className="screen riddle-solved-bg">
+          <div className="title-card" style={{ background: 'rgba(255,250,240,0.12)', color: '#fdf4dd', borderColor: 'rgba(255,255,255,0.3)' }}>
+            🌙 · 🌊
+            <div style={{ fontSize: 13, marginTop: 12, lineHeight: 1.6, fontWeight: 700 }}>
+              Il resto, adesso, tra noi.
             </div>
           </div>
-        )
-        break
+        </div>
+      )
 
-      default:
-        content = <Waiting text="..." />
-    }
+    default:
+      return <Waiting text="..." />
   }
-
-  const showLetterIcon = !loading && state.current_step !== 'intro'
-
-  return (
-    <>
-      {showLetterIcon && <LetterHistory letters={letters} />}
-      {content}
-      <AnimatePresence>
-        {activeUnlock && (
-          <LetterUnlockOverlay
-            unlock={activeUnlock}
-            onDone={() => setActiveUnlock(null)}
-          />
-        )}
-      </AnimatePresence>
-    </>
-  )
 }
