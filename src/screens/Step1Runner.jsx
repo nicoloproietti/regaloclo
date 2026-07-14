@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import DialogueBox from '../components/DialogueBox.jsx'
+import { CONFIG } from '../config.js'
 import {
   OBSTACLE_ICONS,
   RunnerChar,
@@ -218,7 +219,7 @@ export default function Step1Runner({ onComplete }) {
         <DialogueBox
           lines={[
             { speaker: 'nico', text: 'Complimenti! Hai completato questo livello. 🎉' },
-            { speaker: 'nico', text: 'Ci vediamo il 18 alle 18 sotto casa tua, per giocare ancora!' },
+            { speaker: 'nico', text: `Ci vediamo ${CONFIG.meetup.date} alle ${CONFIG.meetup.time} ${CONFIG.meetup.place}, per giocare ancora!` },
           ]}
           action={
             <button className="pixel-btn" onClick={onComplete}>

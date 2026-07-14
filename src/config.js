@@ -3,11 +3,11 @@ export const CONFIG = {
   adminPassword: 'tiamo1807',
   meetup: {
     date: 'Sabato 18',
-    time: '18:00',
+    time: '17:00',
     place: 'sotto casa tua',
   },
-  // >>> CAMBIA QUI quando saprai il posto: nome del ristorante rivelato allo Step 2 (prima pagina)
-  restaurantName: 'Il Posto Segreto',
+  // Nome del ristorante rivelato allo Step 2 (prima pagina)
+  restaurantName: 'Alla Scialuppa da Salvatore',
   // Testata del giornale nello Step 2 (puoi personalizzarla)
   newspaperName: "L'ECO DEL TRAMONTO",
   newspaperDate: 'Edizione speciale · 18 Luglio',
