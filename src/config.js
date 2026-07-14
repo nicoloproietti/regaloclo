@@ -10,7 +10,7 @@ export const CONFIG = {
   restaurantName: 'Alla Scialuppa da Salvatore',
   // Testata del giornale nello Step 2 (puoi personalizzarla)
   newspaperName: "L'ECO DEL TRAMONTO",
-  newspaperDate: 'Edizione speciale · 18 Luglio',
+  newspaperDate: 'Edizione speciale · Sabato 18 Luglio 2026',
   sunsetSpot: 'Singita',
 }
 
